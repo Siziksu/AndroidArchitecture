@@ -22,6 +22,26 @@ This demo uses a layered architecture.
 + Data
 + Common
 
+It uses the dependency rule, where:
+
+    User interface -> Presenter -> Domain -> Data
+
+All the layers has access to the `Common` layer which contains the `Model` and global objects. This simplifies a lot the amount of objects used.
+The `Data` layer includes the `Cloud` and the `Persistence`.
+
+## How it works
+The `UI` will register in the `Presenter` and ask him for the weather in Barcelona, Spain.
+
+Then, the `Presenter` will communicate with the `Domain` layer by asking for this data to the `WeatherDomain` class, and after receiving the response, process it and deliver it to the `UI`.
+
+In the `Domain` layer, this `WeatherDomain` class will be a `Facade` that will communicate with the `Data` layer through the `GetWeatherRequest` class. This `Request` class will communicate with the `Data` layer asking for this data to the `WeatherData` class.
+
+In the `Data` layer, this `WeatherData` class will be a `Facade` that will manage the `cache` and the `cloud` through the `WeatherClient` class. Finally, this `WeatherClient` class will manage the Retrofit service call.
+
+As said before, all the layers will have access to the `Common` layer which contains the `Model` and global objects.
+
+Each layer has a `Listener` to pass the data.
+
 ## License
     Copyright 2016 Esteban Latre
 

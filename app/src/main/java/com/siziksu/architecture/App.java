@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.siziksu.architecture.common.ConnectionUtils;
 import com.siziksu.architecture.common.Preferences;
-import com.siziksu.architecture.domain.WeatherInteractor;
+import com.siziksu.architecture.domain.WeatherDomain;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
 /**
@@ -22,7 +22,7 @@ public class App extends Application {
         ConnectionUtils.init(getApplicationContext());
         Preferences.init(getApplicationContext());
         ActivityCommon.init();
-        WeatherInteractor.init();
+        WeatherDomain.init();
     }
 }
 

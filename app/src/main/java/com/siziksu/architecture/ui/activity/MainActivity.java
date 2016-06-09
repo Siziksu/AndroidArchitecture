@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
 
     private WeatherPresenter presenter;
 
-    private TextView place;
-    private TextView temperature;
-    private TextView update;
-    private TextView error;
-    private ProgressBar progress;
+    private TextView textViewPlace;
+    private TextView textViewTemperature;
+    private TextView textViewUpdate;
+    private TextView TextViewError;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
         presenter = new WeatherPresenter();
         Toolbar defaultToolbar = (Toolbar) findViewById(R.id.defaultToolbar);
         ActivityCommon.getInstance().applyToolBarStyleWithHome(this, defaultToolbar);
-        place = (TextView) findViewById(R.id.place);
-        temperature = (TextView) findViewById(R.id.temperature);
-        update = (TextView) findViewById(R.id.update);
-        error = (TextView) findViewById(R.id.error);
-        progress = (ProgressBar) findViewById(R.id.progress);
+        textViewPlace = (TextView) findViewById(R.id.textViewPlace);
+        textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
+        textViewUpdate = (TextView) findViewById(R.id.textViewUpdate);
+        TextViewError = (TextView) findViewById(R.id.TextViewError);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override
@@ -64,20 +64,20 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
 
     @Override
     public void onWeather(String place, String temperature, String currentTime) {
-        this.place.setText(place);
-        this.temperature.setText(temperature);
-        update.setText(currentTime);
-        error.setVisibility(View.GONE);
+        this.textViewPlace.setText(place);
+        this.textViewTemperature.setText(temperature);
+        textViewUpdate.setText(currentTime);
+        TextViewError.setVisibility(View.GONE);
     }
 
     @Override
     public void onWeatherError() {
-        error.setVisibility(View.VISIBLE);
+        TextViewError.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showProgress(boolean value) {
-        progress.setVisibility(value ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(value ? View.VISIBLE : View.GONE);
     }
 
     @Override

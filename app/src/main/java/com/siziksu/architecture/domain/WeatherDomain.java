@@ -7,11 +7,11 @@ import com.siziksu.architecture.domain.weather.GetWeatherRequest;
 /**
  * Interactor class.
  */
-public class WeatherInteractor {
+public class WeatherDomain {
 
-    private static WeatherInteractor instance;
+    private static WeatherDomain instance;
 
-    private WeatherInteractor() {
+    private WeatherDomain() {
         // Private constructor
     }
 
@@ -20,7 +20,7 @@ public class WeatherInteractor {
      */
     public static void init() {
         if (instance == null) {
-            instance = new WeatherInteractor();
+            instance = new WeatherDomain();
         }
     }
 
@@ -29,7 +29,7 @@ public class WeatherInteractor {
      *
      * @return the instance
      */
-    public static WeatherInteractor getInstance() {
+    public static WeatherDomain getInstance() {
         if (instance == null) {
             throw new RuntimeException("This class must be initialized");
         }

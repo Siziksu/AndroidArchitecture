@@ -6,7 +6,7 @@ import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.domain.WeatherInteractor;
+import com.siziksu.architecture.domain.WeatherDomain;
 
 /**
  * Presenter class.
@@ -14,7 +14,7 @@ import com.siziksu.architecture.domain.WeatherInteractor;
 public class WeatherPresenter implements WeatherContract.WeatherPresenter {
 
     private WeatherContract.WeatherView view;
-    private WeatherInteractor weatherInteractor;
+    private WeatherDomain weatherDomain;
 
     private boolean getWeatherRequestActive;
 
@@ -22,7 +22,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
      * Instantiates a new Presenter.
      */
     public WeatherPresenter() {
-        this.weatherInteractor = WeatherInteractor.getInstance();
+        this.weatherDomain = WeatherDomain.getInstance();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
         if (!getWeatherRequestActive) {
             if (view != null) {
                 view.showProgress(true);
-                weatherInteractor.getWeather(city, new WeatherInteractor.OnGetWeatherListener() {
+                weatherDomain.getWeather(city, new WeatherDomain.OnGetWeatherListener() {
 
                     @Override
                     public void onWeather(OpenWeather response) {
