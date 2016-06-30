@@ -10,7 +10,7 @@ import com.siziksu.architecture.data.client.weather.WeatherClient;
 /**
  * WeatherData class.
  */
-public class WeatherData {
+public final class WeatherData {
 
     private static final String WEATHER = "weather";
     private static final String WEATHER_CACHE = "weather_cache";

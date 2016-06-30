@@ -3,12 +3,12 @@ package com.siziksu.architecture.presenter.weather;
 import android.app.Activity;
 
 /**
- * Contract between the view and its presenter.
+ * WeatherContract class. Contract between the view and its presenter.
  */
 public interface WeatherContract {
 
     /**
-     * View holding the login process
+     * View.
      */
     interface WeatherView {
 
@@ -20,7 +20,14 @@ public interface WeatherContract {
         Activity getActivity();
 
         /**
-         * Launched when login has finished.
+         * Show progress.
+         *
+         * @param value the value
+         */
+        void showProgress(boolean value);
+
+        /**
+         * When we have the weather response.
          *
          * @param place       the place
          * @param temperature the temperature
@@ -29,20 +36,13 @@ public interface WeatherContract {
         void onWeather(String place, String temperature, String currentTime);
 
         /**
-         * Show progress.
-         *
-         * @param value the value
-         */
-        void showProgress(boolean value);
-
-        /**
          * On weather error.
          */
         void onWeatherError();
     }
 
     /**
-     * Presenter which manages the login view
+     * Presenter.
      */
     interface WeatherPresenter {
 

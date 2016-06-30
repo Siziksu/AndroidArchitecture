@@ -26,7 +26,7 @@ public class Main {
     private Double tempMax;
 
     /**
-     * Gets temp.
+     * Gets temperature.
      *
      * @return the temperature
      */
@@ -35,7 +35,7 @@ public class Main {
     }
 
     /**
-     * Sets temp.
+     * Sets temperature.
      *
      * @param temperature the temperature
      */
@@ -80,7 +80,7 @@ public class Main {
     }
 
     /**
-     * Gets temp min.
+     * Gets temperature min.
      *
      * @return the temp min
      */
@@ -89,7 +89,7 @@ public class Main {
     }
 
     /**
-     * Sets temp min.
+     * Sets temperature min.
      *
      * @param tempMin the temp min
      */
@@ -98,18 +98,18 @@ public class Main {
     }
 
     /**
-     * Gets temp max.
+     * Gets temperature max.
      *
-     * @return the temp max
+     * @return the temperature max
      */
     public Double getTempMax() {
         return tempMax;
     }
 
     /**
-     * Sets temp max.
+     * Sets temperature max.
      *
-     * @param tempMax the temp max
+     * @param tempMax the temperature max
      */
     public void setTempMax(Double tempMax) {
         this.tempMax = tempMax;

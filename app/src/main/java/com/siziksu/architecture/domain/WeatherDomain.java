@@ -5,9 +5,9 @@ import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.domain.weather.GetWeatherRequest;
 
 /**
- * Interactor class.
+ * WeatherDomain class.
  */
-public class WeatherDomain {
+public final class WeatherDomain {
 
     private static WeatherDomain instance;
 

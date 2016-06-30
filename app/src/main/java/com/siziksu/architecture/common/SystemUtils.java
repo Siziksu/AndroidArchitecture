@@ -6,9 +6,9 @@ import android.util.Log;
 import java.util.Calendar;
 
 /**
- * System utils class.
+ * SystemUtils class.
  */
-public class SystemUtils {
+public final class SystemUtils {
 
     /**
      * Gets current time.

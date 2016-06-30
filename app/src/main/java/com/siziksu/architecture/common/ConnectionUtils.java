@@ -11,9 +11,9 @@ import android.os.Build;
 import com.siziksu.architecture.common.model.Connection;
 
 /**
- * Connection utils class.
+ * ConnectionUtils class.
  */
-public class ConnectionUtils {
+public final class ConnectionUtils {
 
     /**
      * The constant NOT_CONNECTED.

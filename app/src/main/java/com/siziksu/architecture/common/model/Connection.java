@@ -1,7 +1,7 @@
 package com.siziksu.architecture.common.model;
 
 /**
- * The type Connection.
+ * Connection class.
  */
 public class Connection {
 
@@ -9,7 +9,7 @@ public class Connection {
     private String name;
 
     /**
-     * Instantiates a new Connection.
+     * Constructor.
      *
      * @param connected true or false
      * @param name      the name

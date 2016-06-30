@@ -8,7 +8,7 @@ import com.siziksu.architecture.data.WeatherData;
 class WeatherRequest {
 
     /**
-     * The Client.
+     * The Client for all the requests.
      */
     protected final WeatherData data = new WeatherData();
 }

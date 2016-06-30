@@ -14,7 +14,7 @@ public class Clouds {
     private Integer cloudiness;
 
     /**
-     * Gets all.
+     * Gets cloudiness.
      *
      * @return the cloudiness
      */
@@ -23,7 +23,7 @@ public class Clouds {
     }
 
     /**
-     * Sets all.
+     * Sets cloudiness.
      *
      * @param cloudiness the cloudiness
      */

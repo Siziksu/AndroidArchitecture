@@ -8,9 +8,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Retrofit Client Adapter class.
+ * WeatherClientAdapter class.
  */
-public class WeatherClientAdapter {
+public final class WeatherClientAdapter {
 
     public static final String SERVER = "http://api.openweathermap.org/";
     public static final String URI = "data/2.5/weather";

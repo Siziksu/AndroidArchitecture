@@ -9,7 +9,7 @@ import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.domain.WeatherDomain;
 
 /**
- * Presenter class.
+ * WeatherPresenter class.
  */
 public class WeatherPresenter implements WeatherContract.WeatherPresenter {
 
@@ -19,7 +19,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
     private boolean getWeatherRequestActive;
 
     /**
-     * Instantiates a new Presenter.
+     * Constructor.
      */
     public WeatherPresenter() {
         this.weatherDomain = WeatherDomain.getInstance();

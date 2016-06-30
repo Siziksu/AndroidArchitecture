@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * The type Coordinates.
+ * Coordinates class.
  */
 public class Coordinates {
 
@@ -17,36 +17,36 @@ public class Coordinates {
     private Double latitude;
 
     /**
-     * Gets lon.
+     * Gets longitude.
      *
-     * @return the lon
+     * @return the longitude
      */
     public Double getLongitude() {
         return longitude;
     }
 
     /**
-     * Sets lon.
+     * Sets longitude.
      *
-     * @param longitude the lon
+     * @param longitude the longitude
      */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
     /**
-     * Gets lat.
+     * Gets latitude.
      *
-     * @return the lat
+     * @return the latitude
      */
     public Double getLatitude() {
         return latitude;
     }
 
     /**
-     * Sets lat.
+     * Sets latitude.
      *
-     * @param latitude the lat
+     * @param latitude the latitude
      */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;

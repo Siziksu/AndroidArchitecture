@@ -3,7 +3,7 @@ package com.siziksu.architecture.common;
 /**
  * Default constants class.
  */
-public class Constants {
+public final class Constants {
 
     /**
      * The constant TAG.

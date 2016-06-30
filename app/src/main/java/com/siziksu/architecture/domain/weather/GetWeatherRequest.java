@@ -4,9 +4,9 @@ import com.siziksu.architecture.common.AsyncObject;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 
 /**
- * Use case class (Interactor).
+ * Request class.
  */
-public class GetWeatherRequest extends WeatherRequest implements AsyncObject.Request<OpenWeather> {
+public final class GetWeatherRequest extends WeatherRequest implements AsyncObject.Request<OpenWeather> {
 
     private final OnGetWeatherListener listener;
     private final String city;

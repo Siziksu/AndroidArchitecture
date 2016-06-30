@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * The type Wind.
+ * Wind class.
  */
 public class Wind {
 
@@ -35,7 +35,7 @@ public class Wind {
     }
 
     /**
-     * Gets deg.
+     * Gets direction degrees.
      *
      * @return the direction degrees
      */
@@ -44,7 +44,7 @@ public class Wind {
     }
 
     /**
-     * Sets deg.
+     * Sets direction degrees.
      *
      * @param directionDegrees the direction degrees
      */

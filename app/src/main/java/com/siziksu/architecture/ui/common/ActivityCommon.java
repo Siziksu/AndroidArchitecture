@@ -4,9 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 /**
- * The type Activity common.
+ * ActivityCommon class.
  */
-public class ActivityCommon {
+public final class ActivityCommon {
 
     private static ActivityCommon instance;
 

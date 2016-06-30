@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Forecast class.
+ * OpenWeather class.
  */
 public class OpenWeather {
 

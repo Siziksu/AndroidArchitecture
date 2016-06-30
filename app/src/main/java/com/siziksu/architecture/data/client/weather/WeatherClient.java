@@ -10,9 +10,9 @@ import java.io.IOException;
 import retrofit2.Call;
 
 /**
- * Client class.
+ * WeatherClient class.
  */
-public class WeatherClient {
+public final class WeatherClient {
 
     private WeatherClientService service = WeatherClientAdapter.getInstance().getService();
 
