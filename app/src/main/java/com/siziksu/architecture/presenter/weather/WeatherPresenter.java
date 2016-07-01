@@ -43,7 +43,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                 weatherDomain.getWeather(city, new WeatherDomain.OnGetWeatherListener() {
 
                     @Override
-                    public void onWeather(OpenWeather response) {
+                    public void success(OpenWeather response) {
                         if (view != null) {
                             if (response != null) {
                                 view.onWeather(
@@ -52,16 +52,20 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                                         String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
                                 );
                             }
-                            view.showProgress(false);
                         }
-                        getWeatherRequestActive = false;
                     }
 
                     @Override
-                    public void onError(Exception e) {
+                    public void error(Exception e) {
                         if (view != null) {
                             Log.d(Constants.TAG, e.getMessage(), e);
                             view.onWeatherError();
+                        }
+                    }
+
+                    @Override
+                    public void done() {
+                        if (view != null) {
                             view.showProgress(false);
                         }
                         getWeatherRequestActive = false;

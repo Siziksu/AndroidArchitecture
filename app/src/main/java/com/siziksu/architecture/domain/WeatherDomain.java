@@ -1,6 +1,5 @@
 package com.siziksu.architecture.domain;
 
-import com.siziksu.architecture.common.AsyncObject;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.domain.weather.GetWeatherRequest;
 
@@ -42,19 +41,24 @@ public final class WeatherDomain {
      * @param city     the city
      * @param listener the listener
      */
-    public void getWeather(String city, final OnGetWeatherListener listener) {
-        new AsyncObject<>(new GetWeatherRequest(city, new GetWeatherRequest.OnGetWeatherListener() {
+    public void getWeather(final String city, final OnGetWeatherListener listener) {
+        new GetWeatherRequest(city, new GetWeatherRequest.OnGetWeatherListener() {
 
             @Override
-            public void onWeather(final OpenWeather dashboard) {
-                listener.onWeather(dashboard);
+            public void success(OpenWeather response) {
+                listener.success(response);
             }
 
             @Override
-            public void onError(Exception e) {
-                listener.onError(e);
+            public void error(Exception e) {
+                listener.error(e);
             }
-        })).execute();
+
+            @Override
+            public void done() {
+                listener.done();
+            }
+        }).run();
     }
 
     /**
@@ -67,13 +71,18 @@ public final class WeatherDomain {
          *
          * @param response the response
          */
-        void onWeather(OpenWeather response);
+        void success(OpenWeather response);
 
         /**
          * On error.
          *
          * @param e the exception
          */
-        void onError(Exception e);
+        void error(Exception e);
+
+        /**
+         * Emits when the request is done.
+         */
+        void done();
     }
 }

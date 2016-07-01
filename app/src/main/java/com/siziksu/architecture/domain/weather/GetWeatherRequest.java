@@ -2,11 +2,12 @@ package com.siziksu.architecture.domain.weather;
 
 import com.siziksu.architecture.common.AsyncObject;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
+import com.siziksu.architecture.data.WeatherData;
 
 /**
  * Request class.
  */
-public final class GetWeatherRequest extends WeatherRequest implements AsyncObject.Request<OpenWeather> {
+public final class GetWeatherRequest {
 
     private final OnGetWeatherListener listener;
     private final String city;
@@ -22,19 +23,31 @@ public final class GetWeatherRequest extends WeatherRequest implements AsyncObje
         this.listener = listener;
     }
 
-    @Override
-    public OpenWeather request() throws Exception {
-        return data.getWeather(city);
-    }
+    public void run() {
+        new AsyncObject<OpenWeather>().action(new AsyncObject.Action<OpenWeather>() {
 
-    @Override
-    public void onSuccess(long id, OpenWeather response) {
-        listener.onWeather(response);
-    }
+            @Override
+            public OpenWeather action() throws Exception {
+                return new WeatherData().getWeather(city);
+            }
 
-    @Override
-    public void onError(long id, Exception e) {
-        listener.onError(e);
+            @Override
+            public void done() {
+                listener.done();
+            }
+        }).success(new AsyncObject.Success<OpenWeather>() {
+
+            @Override
+            public void success(OpenWeather response) {
+                listener.success(response);
+            }
+        }).error(new AsyncObject.Error() {
+
+            @Override
+            public void error(Exception e) {
+                listener.error(e);
+            }
+        }).execute();
     }
 
     /**
@@ -47,13 +60,18 @@ public final class GetWeatherRequest extends WeatherRequest implements AsyncObje
          *
          * @param response the response
          */
-        void onWeather(OpenWeather response);
+        void success(OpenWeather response);
 
         /**
          * On error.
          *
          * @param e the exception
          */
-        void onError(Exception e);
+        void error(Exception e);
+
+        /**
+         * Emits when the request is done.
+         */
+        void done();
     }
 }
