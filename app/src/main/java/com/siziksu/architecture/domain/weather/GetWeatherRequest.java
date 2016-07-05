@@ -23,31 +23,38 @@ public final class GetWeatherRequest {
         this.listener = listener;
     }
 
+    /**
+     * Runs the request.
+     */
     public void run() {
-        new AsyncObject<OpenWeather>().action(new AsyncObject.Action<OpenWeather>() {
+        new AsyncObject<OpenWeather>()
+                .runOnMainThread()
+                .action(new AsyncObject.Action<OpenWeather>() {
 
-            @Override
-            public OpenWeather action() throws Exception {
-                return new WeatherData().getWeather(city);
-            }
+                    @Override
+                    public OpenWeather action() throws Exception {
+                        return new WeatherData().getWeather(city);
+                    }
 
-            @Override
-            public void done() {
-                listener.done();
-            }
-        }).success(new AsyncObject.Success<OpenWeather>() {
+                    @Override
+                    public void done() {
+                        listener.done();
+                    }
+                })
+                .success(new AsyncObject.Success<OpenWeather>() {
 
-            @Override
-            public void success(OpenWeather response) {
-                listener.success(response);
-            }
-        }).error(new AsyncObject.Error() {
+                    @Override
+                    public void success(OpenWeather response) {
+                        listener.success(response);
+                    }
+                })
+                .error(new AsyncObject.Error() {
 
-            @Override
-            public void error(Exception e) {
-                listener.error(e);
-            }
-        }).execute();
+                    @Override
+                    public void error(Exception e) {
+                        listener.error(e);
+                    }
+                }).execute();
     }
 
     /**

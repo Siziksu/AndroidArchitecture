@@ -1,6 +1,7 @@
 package com.siziksu.architecture.common;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 /**
@@ -16,6 +17,7 @@ public final class AsyncObject<O> {
     private Action<O> action;
     private Success<O> success;
     private Error error;
+    private boolean runOnMainThread;
 
     /**
      * Instantiates an {@code AsyncObject}
@@ -91,33 +93,45 @@ public final class AsyncObject<O> {
     }
 
     private void onSuccess(final O response) {
-        handler.post(new Runnable() {
+        if (handler != null) {
+            handler.post(new Runnable() {
 
-            @Override
-            public void run() {
-                success.success(response);
-            }
-        });
+                @Override
+                public void run() {
+                    success.success(response);
+                }
+            });
+        } else {
+            success.success(response);
+        }
     }
 
     private void onError(final Exception e) {
-        handler.post(new Runnable() {
+        if (handler != null) {
+            handler.post(new Runnable() {
 
-            @Override
-            public void run() {
-                error.error(e);
-            }
-        });
+                @Override
+                public void run() {
+                    error.error(e);
+                }
+            });
+        } else {
+            error.error(e);
+        }
     }
 
     private void onDone() {
-        handler.post(new Runnable() {
+        if (handler != null) {
+            handler.post(new Runnable() {
 
-            @Override
-            public void run() {
-                action.done();
-            }
-        });
+                @Override
+                public void run() {
+                    action.done();
+                }
+            });
+        } else {
+            action.done();
+        }
     }
 
     /**
@@ -125,11 +139,22 @@ public final class AsyncObject<O> {
      */
     public void execute() {
         if (action != null) {
-            handler = new Handler();
+            if (runOnMainThread) {
+                handler = new Handler(Looper.getMainLooper());
+            } else {
+                if (Looper.myLooper() == Looper.getMainLooper()) {
+                    handler = new Handler();
+                }
+            }
             new Thread(obtainRunnable()).start();
         } else {
             throw new RuntimeException("There is no action to be executed");
         }
+    }
+
+    public AsyncObject<O> runOnMainThread() {
+        runOnMainThread = true;
+        return this;
     }
 
     /**
