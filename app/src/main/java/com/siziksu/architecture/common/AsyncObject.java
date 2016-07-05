@@ -27,11 +27,32 @@ public final class AsyncObject<O> {
     }
 
     /**
+     * Runs the specified action on the Main thread.
+     *
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> runOnMainThread() {
+        runOnMainThread = true;
+        return this;
+    }
+
+    /**
+     * Gets if the object is running.
+     *
+     * @return true if it is running or false if it is not
+     */
+    public boolean isExecuting() {
+        return executing;
+    }
+
+    /**
      * Sets the {@link Action} used to create the {@link Runnable} that will
      * be executed in a new {@link Thread} when the method {@link #execute()}
      * is called.
      *
      * @param action the Request that will be used
+     *
+     * @return {@code AsyncObject}
      */
     public AsyncObject<O> action(final Action<O> action) {
         this.action = action;
@@ -43,6 +64,8 @@ public final class AsyncObject<O> {
      * {@link Action} if ends successfully.
      *
      * @param success the Success that will be used
+     *
+     * @return {@code AsyncObject}
      */
     public AsyncObject<O> success(final Success<O> success) {
         this.success = success;
@@ -54,10 +77,30 @@ public final class AsyncObject<O> {
      * thrown if the {@link Action} fails.
      *
      * @param error the Error that will be used
+     *
+     * @return {@code AsyncObject}
      */
     public AsyncObject<O> error(final Error error) {
         this.error = error;
         return this;
+    }
+
+    /**
+     * Executes the {@link Action} into a new {@link Thread}.
+     */
+    public void execute() {
+        if (action != null) {
+            if (runOnMainThread) {
+                handler = new Handler(Looper.getMainLooper());
+            } else {
+                if (Looper.myLooper() == Looper.getMainLooper()) {
+                    handler = new Handler();
+                }
+            }
+            new Thread(obtainRunnable()).start();
+        } else {
+            throw new RuntimeException("There is no action to be executed");
+        }
     }
 
     /**
@@ -75,7 +118,7 @@ public final class AsyncObject<O> {
                         if (success != null) {
                             onSuccess(response);
                         } else {
-                            Log.d("AsyncObject", "Call success");
+                            Log.d("AsyncObject", "Action successfully completed");
                         }
                     } catch (Exception e) {
                         if (error != null) {
@@ -132,38 +175,6 @@ public final class AsyncObject<O> {
         } else {
             action.done();
         }
-    }
-
-    /**
-     * Executes the {@link Action} into a new {@link Thread}.
-     */
-    public void execute() {
-        if (action != null) {
-            if (runOnMainThread) {
-                handler = new Handler(Looper.getMainLooper());
-            } else {
-                if (Looper.myLooper() == Looper.getMainLooper()) {
-                    handler = new Handler();
-                }
-            }
-            new Thread(obtainRunnable()).start();
-        } else {
-            throw new RuntimeException("There is no action to be executed");
-        }
-    }
-
-    public AsyncObject<O> runOnMainThread() {
-        runOnMainThread = true;
-        return this;
-    }
-
-    /**
-     * Gets if the object is running.
-     *
-     * @return true if is running or false if it is not
-     */
-    public boolean isExecuting() {
-        return executing;
     }
 
     /**
