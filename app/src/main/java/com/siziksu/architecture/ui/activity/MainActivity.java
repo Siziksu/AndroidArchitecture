@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         presenter.unregister();
     }
 
