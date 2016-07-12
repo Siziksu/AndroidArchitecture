@@ -17,6 +17,7 @@ public final class AsyncObject<O> {
     private Action<O> action;
     private Success<O> success;
     private Error error;
+    private Done done;
     private boolean runOnMainThread;
 
     /**
@@ -56,6 +57,19 @@ public final class AsyncObject<O> {
      */
     public AsyncObject<O> action(final Action<O> action) {
         this.action = action;
+        return this;
+    }
+
+    /**
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} if ends.
+     *
+     * @param done the Done that will be used
+     *
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> done(final Done done) {
+        this.done = done;
         return this;
     }
 
@@ -108,28 +122,24 @@ public final class AsyncObject<O> {
      */
     private Runnable obtainRunnable() {
         if (runnable == null) {
-            runnable = new Runnable() {
-
-                @Override
-                public void run() {
-                    executing = true;
-                    try {
-                        O response = action.action();
-                        if (success != null) {
-                            onSuccess(response);
-                        } else {
-                            Log.d("AsyncObject", "Action successfully completed");
-                        }
-                    } catch (Exception e) {
-                        if (error != null) {
-                            onError(e);
-                        } else {
-                            Log.d("AsyncObject", e.getMessage(), e);
-                        }
+            runnable = () -> {
+                executing = true;
+                try {
+                    O response = action.action();
+                    if (success != null) {
+                        onSuccess(response);
+                    } else {
+                        Log.d("AsyncObject", "Action successfully completed");
                     }
-                    executing = false;
-                    onDone();
+                } catch (Exception e) {
+                    if (error != null) {
+                        onError(e);
+                    } else {
+                        Log.d("AsyncObject", e.getMessage(), e);
+                    }
                 }
+                executing = false;
+                onDone();
             };
         }
         return runnable;
@@ -137,13 +147,7 @@ public final class AsyncObject<O> {
 
     private void onSuccess(final O response) {
         if (handler != null) {
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    success.success(response);
-                }
-            });
+            handler.post(() -> success.success(response));
         } else {
             success.success(response);
         }
@@ -151,13 +155,7 @@ public final class AsyncObject<O> {
 
     private void onError(final Exception e) {
         if (handler != null) {
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    error.error(e);
-                }
-            });
+            handler.post(() -> error.error(e));
         } else {
             error.error(e);
         }
@@ -165,23 +163,16 @@ public final class AsyncObject<O> {
 
     private void onDone() {
         if (handler != null) {
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    action.done();
-                }
-            });
+            handler.post(() -> done.done());
         } else {
-            action.done();
+            done.done();
         }
     }
 
     /**
      * A task that returns a result and may throw an exception.
      * <br>It is designed ot be executed by another thread.
-     * <br>It adds two methods used to return the result of the async request:
-     * {@code action(O)} and {@code done()}.
+     * <br>It returns the result of the async request through: {@code action(O)}.
      *
      * @param <O> the result type of method {@code request}
      */
@@ -195,6 +186,12 @@ public final class AsyncObject<O> {
          * @throws Exception if unable to compute a result
          */
         O action() throws Exception;
+    }
+
+    /**
+     * Task that emits when an action is done.
+     */
+    public interface Done {
 
         /**
          * Emits when the action is done.

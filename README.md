@@ -1,19 +1,62 @@
 # Architecture
+
 Demo of architecture for Android.
 
-## Libraries used
-This demo uses Retrofit 2, Okhttp 3 and Gson.
+## Highlights
+
+This demo uses:
+
++ `Jack toolchain`
++ `Lambdas`.
++ `Retrofit 2`
++ `Okhttp 3`
++ `Gson`.
+
 ```
-com.squareup.retrofit2:retrofit:2.0.2
-com.squareup.retrofit2:converter-gson:2.0.2
-com.squareup.okhttp3:okhttp:3.3.1
-com.squareup.okhttp3:logging-interceptor:3.3.1
+android {
+
+    compileSdkVersion 23
+    buildToolsVersion 24.0.0
+
+    defaultConfig {
+        jackOptions {
+            enabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile com.squareup.retrofit2:retrofit:2.0.2
+    compile com.squareup.retrofit2:converter-gson:2.0.2
+    compile com.squareup.okhttp3:okhttp:3.3.1
+    compile com.squareup.okhttp3:logging-interceptor:3.3.1
+}
 ```
 
 ## Use Case
 With this demo we will request to the OpenWeatherMap service for the current temperature of Barcelona, Spain.
 
+## AsyncObject for Android
+
+This demo uses a version of my own `AsyncObject` for Android.
+
+```java
+new AsyncObject<OpenWeather>()
+                .runOnMainThread()
+                .action(() -> new WeatherData().getWeather(city))
+                .done(listener::done)
+                .success(listener::success)
+                .error(listener::error)
+                .execute();
+```
+
 ## Architecture
+
 This demo uses a layered architecture.
 
 + User interface
@@ -22,25 +65,37 @@ This demo uses a layered architecture.
 + Data
 + Common
 
-It uses the dependency rule, where:
+Applying the dependency rule in this direction:
 
-    User interface -> Presenter -> Domain -> Data
+    User Interface -> Presenter -> Domain -> Data
 
 All the layers has access to the `Common` layer which contains the `Model` and global objects. This simplifies a lot the amount of objects used.
 The `Data` layer includes the `Cloud` and the `Persistence`.
 
+## Layer communication
+
+```
+app.view.ui   -> app.presenter
+
+app.presenter ^  return result through a listener
+app.presenter -> domain.facade
+
+domain.facade -> domain.request -> data.facade
+
+data.facade   -> data.database  ^  return response through a listener
+              -> data.client    ^  return response through a listener
+```
+
 ## How it works
-The `UI` will register in the `Presenter` and ask him for the weather in Barcelona, Spain.
 
-Then, the `Presenter` will communicate with the `Domain` layer by asking for this data to the `WeatherDomain` class, and after receiving the response, process it and deliver it to the `UI`.
+1. The `User Interface` will register in the `Presenter` and ask him for the things it needs.
+2. Then, the `Presenter` will communicate with the `Domain` by asking for this data to the domain classes (`Facades`), and after receiving the response, process it and deliver it to the `User Interface`.
+3. In the `Domain` layer, this `Facade` classes will communicate with the `Data` layer through the domain `Request` classes. This `Request` classes will communicate with the `Data` layer asking for this data to the data classes (`Facades`).
+4. In the Data layer, this `Facade` classes will manage the `cache` and the `cloud` through the data `Client` classes. Finally, this `Client` class will manage the `Retrofit` service calls.
 
-In the `Domain` layer, this `WeatherDomain` class will be a `Facade` that will communicate with the `Data` layer through the `GetWeatherRequest` class. This `Request` class will communicate with the `Data` layer asking for this data to the `WeatherData` class.
+As said before, all the layers will have access to the `Common` layer which contains the `Model` and `global objects`.
 
-In the `Data` layer, this `WeatherData` class will be a `Facade` that will manage the `cache` and the `cloud` through the `WeatherClient` class. Finally, this `WeatherClient` class will manage the Retrofit service call.
-
-As said before, all the layers will have access to the `Common` layer which contains the `Model` and global objects.
-
-Each layer has a `Listener` to pass the data.
+Each layer has a `Listener` to pass the data back (`Callbacks`).
 
 ## License
     Copyright 2016 Esteban Latre

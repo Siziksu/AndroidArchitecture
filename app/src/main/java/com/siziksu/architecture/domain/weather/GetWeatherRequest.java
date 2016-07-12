@@ -29,32 +29,11 @@ public final class GetWeatherRequest {
     public void run() {
         new AsyncObject<OpenWeather>()
                 .runOnMainThread()
-                .action(new AsyncObject.Action<OpenWeather>() {
-
-                    @Override
-                    public OpenWeather action() throws Exception {
-                        return new WeatherData().getWeather(city);
-                    }
-
-                    @Override
-                    public void done() {
-                        listener.done();
-                    }
-                })
-                .success(new AsyncObject.Success<OpenWeather>() {
-
-                    @Override
-                    public void success(OpenWeather response) {
-                        listener.success(response);
-                    }
-                })
-                .error(new AsyncObject.Error() {
-
-                    @Override
-                    public void error(Exception e) {
-                        listener.error(e);
-                    }
-                }).execute();
+                .action(() -> new WeatherData().getWeather(city))
+                .done(listener::done)
+                .success(listener::success)
+                .error(listener::error)
+                .execute();
     }
 
     /**
