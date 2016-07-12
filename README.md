@@ -7,10 +7,10 @@ Demo of architecture for Android.
 This demo uses:
 
 + `Jack toolchain`
-+ `Lambdas`.
++ `Lambdas`
 + `Retrofit 2`
 + `Okhttp 3`
-+ `Gson`.
++ `Gson`
 
 ```
 android {
@@ -39,11 +39,11 @@ dependencies {
 ```
 
 ## Use Case
-With this demo we will request to the OpenWeatherMap service for the current temperature of Barcelona, Spain.
+With this demo we will request to the [OpenWeatherMap](http://openweathermap.org/) service for the current temperature of Barcelona, Spain.
 
 ## AsyncObject for Android
 
-This demo uses a version of my own `AsyncObject` for Android.
+This demo uses a version for Android of my own [JavaAsyncObject](https://github.com/Siziksu/JavaAsyncObject).
 
 ```java
 new AsyncObject<OpenWeather>()
@@ -78,7 +78,7 @@ The `Data` layer includes the `Cloud` and the `Persistence`.
 app.view.ui   -> app.presenter
 
 app.presenter ^  return result through a listener
-app.presenter -> domain.facade
+              -> domain.facade
 
 domain.facade -> domain.request -> data.facade
 
