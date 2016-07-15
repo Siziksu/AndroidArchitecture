@@ -4,6 +4,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.siziksu.architecture.common.functions.Action;
+import com.siziksu.architecture.common.functions.Done;
+import com.siziksu.architecture.common.functions.Error;
+import com.siziksu.architecture.common.functions.Success;
+
 /**
  * Object used to easily create async calls.
  *
@@ -169,61 +174,5 @@ public final class AsyncObject<O> {
         } else {
             done.done();
         }
-    }
-
-    /**
-     * A task that returns a result and may throw an exception.
-     * <br>It is designed ot be executed by another thread.
-     * <br>It returns the result of the async request through: {@code action(O)}.
-     *
-     * @param <O> the result type of method {@code request}
-     */
-    public interface Action<O> {
-
-        /**
-         * Computes a result, or throws an exception if unable to do so.
-         *
-         * @return computed result
-         *
-         * @throws Exception if unable to compute a result
-         */
-        O action() throws Exception;
-    }
-
-    /**
-     * Task that emits when an action is done.
-     */
-    public interface Done {
-
-        /**
-         * Emits when the action is done.
-         */
-        void done();
-    }
-
-    /**
-     * This task returns a response.
-     */
-    public interface Success<O> {
-
-        /**
-         * This method will be executed if the action ends successfully.
-         *
-         * @param response the response of the action
-         */
-        void success(O response);
-    }
-
-    /**
-     * This task returns an {@link Exception}.
-     */
-    public interface Error {
-
-        /**
-         * This method will be executed if the action fails.
-         *
-         * @param e the exception returned
-         */
-        void error(Exception e);
     }
 }
