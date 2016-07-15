@@ -14,7 +14,6 @@ import com.siziksu.architecture.domain.WeatherDomain;
 public class WeatherPresenter implements WeatherContract.WeatherPresenter {
 
     private WeatherContract.WeatherView view;
-    private WeatherDomain weatherDomain;
 
     private boolean getWeatherRequestActive;
 
@@ -22,7 +21,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
      * Constructor.
      */
     public WeatherPresenter() {
-        this.weatherDomain = WeatherDomain.getInstance();
+        // Constructor
     }
 
     @Override
@@ -40,18 +39,16 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
         if (!getWeatherRequestActive) {
             if (view != null) {
                 view.showProgress(true);
-                weatherDomain.getWeather(city, new WeatherDomain.OnGetWeatherListener() {
+                WeatherDomain.getInstance().getWeather(city, new WeatherDomain.OnGetWeatherListener() {
 
                     @Override
                     public void success(OpenWeather response) {
-                        if (view != null) {
-                            if (response != null) {
-                                view.onWeather(
-                                        response.getName(),
-                                        String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
-                                        String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
-                                );
-                            }
+                        if (view != null && response != null) {
+                            view.onWeather(
+                                    response.getName(),
+                                    String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
+                                    String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
+                            );
                         }
                     }
 

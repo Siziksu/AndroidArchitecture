@@ -1,6 +1,10 @@
 package com.siziksu.architecture.domain.weather;
 
 import com.siziksu.architecture.common.AsyncObject;
+import com.siziksu.architecture.common.functions.Action;
+import com.siziksu.architecture.common.functions.Done;
+import com.siziksu.architecture.common.functions.Error;
+import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.data.WeatherData;
 
@@ -9,18 +13,18 @@ import com.siziksu.architecture.data.WeatherData;
  */
 public final class GetWeatherRequest {
 
-    private final OnGetWeatherListener listener;
     private final String city;
+    private Success<OpenWeather> success;
+    private Error error;
+    private Done done;
 
     /**
      * Constructor.
      *
-     * @param city     the city
-     * @param listener the callback for the request
+     * @param city the city
      */
-    public GetWeatherRequest(String city, OnGetWeatherListener listener) {
+    public GetWeatherRequest(String city) {
         this.city = city;
-        this.listener = listener;
     }
 
     /**
@@ -30,34 +34,48 @@ public final class GetWeatherRequest {
         new AsyncObject<OpenWeather>()
                 .runOnMainThread()
                 .action(() -> new WeatherData().getWeather(city))
-                .done(listener::done)
-                .success(listener::success)
-                .error(listener::error)
+                .done(done)
+                .success(success)
+                .error(error)
                 .execute();
     }
 
     /**
-     * Callback.
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} ends.
+     *
+     * @param done the Done that will be used
+     *
+     * @return {@code GetWeatherRequest}
      */
-    public interface OnGetWeatherListener {
+    public GetWeatherRequest done(final Done done) {
+        this.done = done;
+        return this;
+    }
 
-        /**
-         * On weather.
-         *
-         * @param response the response
-         */
-        void success(OpenWeather response);
+    /**
+     * Sets the {@link Success} used to return the response if the
+     * {@link Action} ends successfully.
+     *
+     * @param success the Success that will be used
+     *
+     * @return {@code GetWeatherRequest}
+     */
+    public GetWeatherRequest success(final Success<OpenWeather> success) {
+        this.success = success;
+        return this;
+    }
 
-        /**
-         * On error.
-         *
-         * @param e the exception
-         */
-        void error(Exception e);
-
-        /**
-         * Emits when the request is done.
-         */
-        void done();
+    /**
+     * Sets the {@link Error} used to return {@link Exception} that will be
+     * thrown if the {@link Action} fails.
+     *
+     * @param error the Error that will be used
+     *
+     * @return {@code GetWeatherRequest}
+     */
+    public GetWeatherRequest error(final Error error) {
+        this.error = error;
+        return this;
     }
 }

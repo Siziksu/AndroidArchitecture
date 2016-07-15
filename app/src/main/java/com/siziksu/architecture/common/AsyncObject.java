@@ -67,7 +67,7 @@ public final class AsyncObject<O> {
 
     /**
      * Sets the {@link Done} used to emit when the response of the
-     * {@link Action} if ends.
+     * {@link Action} ends.
      *
      * @param done the Done that will be used
      *
@@ -79,8 +79,8 @@ public final class AsyncObject<O> {
     }
 
     /**
-     * Sets the {@link Success} used to return the response of the
-     * {@link Action} if ends successfully.
+     * Sets the {@link Success} used to return the response if the
+     * {@link Action} ends successfully.
      *
      * @param success the Success that will be used
      *

@@ -42,23 +42,11 @@ public final class WeatherDomain {
      * @param listener the listener
      */
     public void getWeather(final String city, final OnGetWeatherListener listener) {
-        new GetWeatherRequest(city, new GetWeatherRequest.OnGetWeatherListener() {
-
-            @Override
-            public void success(OpenWeather response) {
-                listener.success(response);
-            }
-
-            @Override
-            public void error(Exception e) {
-                listener.error(e);
-            }
-
-            @Override
-            public void done() {
-                listener.done();
-            }
-        }).run();
+        new GetWeatherRequest(city)
+                .success(listener::success)
+                .error(listener::error)
+                .done(listener::done)
+                .run();
     }
 
     /**
