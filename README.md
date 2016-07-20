@@ -52,7 +52,19 @@ new AsyncObject<OpenWeather>()
                 .done(listener::done)
                 .success(listener::success)
                 .error(listener::error)
-                .execute();
+                .run();
+```
+
+```java
+new AsyncObject<OpenWeather>()
+                .runOnMainThread()
+                .action(() -> new WeatherData().getWeather(city))
+                .subscribe(
+                    success, 
+                    error, 
+                    done
+                )
+                .run();
 ```
 
 ## Architecture

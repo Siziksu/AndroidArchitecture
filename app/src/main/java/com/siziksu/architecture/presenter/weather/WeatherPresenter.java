@@ -5,7 +5,6 @@ import android.util.Log;
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
-import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.domain.WeatherDomain;
 
 /**
@@ -39,35 +38,30 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
         if (!getWeatherRequestActive) {
             if (view != null) {
                 view.showProgress(true);
-                WeatherDomain.getInstance().getWeather(city, new WeatherDomain.OnGetWeatherListener() {
-
-                    @Override
-                    public void success(OpenWeather response) {
-                        if (view != null && response != null) {
-                            view.onWeather(
-                                    response.getName(),
-                                    String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
-                                    String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
-                            );
+                WeatherDomain.getInstance().getWeather(
+                        city,
+                        response -> {
+                            if (view != null && response != null) {
+                                view.onWeather(
+                                        response.getName(),
+                                        String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
+                                        String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
+                                );
+                            }
+                        },
+                        e -> {
+                            if (view != null) {
+                                Log.d(Constants.TAG, e.getMessage(), e);
+                                view.onWeatherError();
+                            }
+                        },
+                        () -> {
+                            if (view != null) {
+                                view.showProgress(false);
+                            }
+                            getWeatherRequestActive = false;
                         }
-                    }
-
-                    @Override
-                    public void error(Exception e) {
-                        if (view != null) {
-                            Log.d(Constants.TAG, e.getMessage(), e);
-                            view.onWeatherError();
-                        }
-                    }
-
-                    @Override
-                    public void done() {
-                        if (view != null) {
-                            view.showProgress(false);
-                        }
-                        getWeatherRequestActive = false;
-                    }
-                });
+                );
             }
         }
         getWeatherRequestActive = true;

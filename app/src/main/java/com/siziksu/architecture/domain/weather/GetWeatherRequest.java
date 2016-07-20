@@ -28,54 +28,36 @@ public final class GetWeatherRequest {
     }
 
     /**
+     * Sets the {@link Success} used to return the response if the
+     * {@link Action} ends successfully.
+     * <br />
+     * Sets the {@link Error} used to return {@link Exception} that will be
+     * thrown if the {@link Action} fails.
+     * <br />
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} ends.
+     *
+     * @param success the Success that will be used
+     * @param error   the Error that will be used
+     * @param done    the Done that will be used
+     *
+     * @return {@code GetWeatherRequest}
+     */
+    public GetWeatherRequest subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
+        this.success = success;
+        this.error = error;
+        this.done = done;
+        return this;
+    }
+
+    /**
      * Runs the request.
      */
     public void run() {
         new AsyncObject<OpenWeather>()
                 .runOnMainThread()
                 .action(() -> new WeatherData().getWeather(city))
-                .done(done)
-                .success(success)
-                .error(error)
-                .execute();
-    }
-
-    /**
-     * Sets the {@link Done} used to emit when the response of the
-     * {@link Action} ends.
-     *
-     * @param done the Done that will be used
-     *
-     * @return {@code GetWeatherRequest}
-     */
-    public GetWeatherRequest done(final Done done) {
-        this.done = done;
-        return this;
-    }
-
-    /**
-     * Sets the {@link Success} used to return the response if the
-     * {@link Action} ends successfully.
-     *
-     * @param success the Success that will be used
-     *
-     * @return {@code GetWeatherRequest}
-     */
-    public GetWeatherRequest success(final Success<OpenWeather> success) {
-        this.success = success;
-        return this;
-    }
-
-    /**
-     * Sets the {@link Error} used to return {@link Exception} that will be
-     * thrown if the {@link Action} fails.
-     *
-     * @param error the Error that will be used
-     *
-     * @return {@code GetWeatherRequest}
-     */
-    public GetWeatherRequest error(final Error error) {
-        this.error = error;
-        return this;
+                .subscribe(success, error, done)
+                .run();
     }
 }

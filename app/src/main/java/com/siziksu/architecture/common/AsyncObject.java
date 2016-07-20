@@ -53,7 +53,7 @@ public final class AsyncObject<O> {
 
     /**
      * Sets the {@link Action} used to create the {@link Runnable} that will
-     * be executed in a new {@link Thread} when the method {@link #execute()}
+     * be executed in a new {@link Thread} when the method {@link #run()}
      * is called.
      *
      * @param action the Request that will be used
@@ -62,19 +62,6 @@ public final class AsyncObject<O> {
      */
     public AsyncObject<O> action(final Action<O> action) {
         this.action = action;
-        return this;
-    }
-
-    /**
-     * Sets the {@link Done} used to emit when the response of the
-     * {@link Action} ends.
-     *
-     * @param done the Done that will be used
-     *
-     * @return {@code AsyncObject}
-     */
-    public AsyncObject<O> done(final Done done) {
-        this.done = done;
         return this;
     }
 
@@ -105,9 +92,90 @@ public final class AsyncObject<O> {
     }
 
     /**
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} ends.
+     *
+     * @param done the Done that will be used
+     *
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> done(final Done done) {
+        this.done = done;
+        return this;
+    }
+
+    /**
+     * Sets the {@link Success} used to return the response of the
+     * {@link Action} if ends successfully.
+     *
+     * @param success the Success that will be used
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> subscribe(final Success<O> success) {
+        this.success = success;
+        return this;
+    }
+
+    /**
+     * Sets the {@link Success} used to return the response of the
+     * {@link Action} if ends successfully.
+     * <br />
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} if ends.
+     *
+     * @param success the Success that will be used
+     * @param done    the Done that will be used
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> subscribe(final Success<O> success, final Done done) {
+        this.success = success;
+        this.done = done;
+        return this;
+    }
+
+    /**
+     * Sets the {@link Success} used to return the response of the
+     * {@link Action} if ends successfully.
+     * <br />
+     * Sets the {@link Error} used to return {@link Exception} that will be
+     * thrown if the {@link Action} fails.
+     *
+     * @param success the Success that will be used
+     * @param error   the Error that will be used
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> subscribe(final Success<O> success, final Error error) {
+        this.success = success;
+        this.error = error;
+        return this;
+    }
+
+    /**
+     * Sets the {@link Success} used to return the response of the
+     * {@link Action} if ends successfully.
+     * <br />
+     * Sets the {@link Error} used to return {@link Exception} that will be
+     * thrown if the {@link Action} fails.
+     * <br />
+     * Sets the {@link Done} used to emit when the response of the
+     * {@link Action} if ends.
+     *
+     * @param success the Success that will be used
+     * @param error   the Error that will be used
+     * @param done    the Done that will be used
+     * @return {@code AsyncObject}
+     */
+    public AsyncObject<O> subscribe(final Success<O> success, final Error error, final Done done) {
+        this.success = success;
+        this.error = error;
+        this.done = done;
+        return this;
+    }
+
+    /**
      * Executes the {@link Action} into a new {@link Thread}.
      */
-    public void execute() {
+    public void run() {
         if (action != null) {
             if (runOnMainThread) {
                 handler = new Handler(Looper.getMainLooper());
@@ -132,27 +200,27 @@ public final class AsyncObject<O> {
                 try {
                     O response = action.action();
                     if (success != null) {
-                        onSuccess(response);
+                        success(response);
                     } else {
                         Log.d("AsyncObject", "Action successfully completed");
                     }
                 } catch (Exception e) {
                     if (error != null) {
-                        onError(e);
+                        error(e);
                     } else {
                         Log.d("AsyncObject", e.getMessage(), e);
                     }
                 }
                 executing = false;
                 if (done != null) {
-                    onDone();
+                    done();
                 }
             };
         }
         return runnable;
     }
 
-    private void onSuccess(final O response) {
+    private void success(final O response) {
         if (handler != null) {
             handler.post(() -> success.success(response));
         } else {
@@ -160,7 +228,7 @@ public final class AsyncObject<O> {
         }
     }
 
-    private void onError(final Exception e) {
+    private void error(final Exception e) {
         if (handler != null) {
             handler.post(() -> error.error(e));
         } else {
@@ -168,7 +236,7 @@ public final class AsyncObject<O> {
         }
     }
 
-    private void onDone() {
+    private void done() {
         if (handler != null) {
             handler.post(() -> done.done());
         } else {
