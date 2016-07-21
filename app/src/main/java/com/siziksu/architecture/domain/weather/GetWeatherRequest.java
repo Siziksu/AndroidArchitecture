@@ -52,7 +52,7 @@ public final class GetWeatherRequest {
      */
     public void subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
         new AsyncObject<OpenWeather>()
-                .runOnMainThread()
+                .subscribeOnMainThread()
                 .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
                 .subscribe(success, error, done);
     }

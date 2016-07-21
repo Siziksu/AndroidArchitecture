@@ -23,7 +23,7 @@ public final class AsyncObject<O> {
     private Success<O> success;
     private Error error;
     private Done done;
-    private boolean runOnMainThread;
+    private boolean subscribeOnMainThread;
 
     /**
      * Instantiates an {@code AsyncObject}
@@ -33,12 +33,12 @@ public final class AsyncObject<O> {
     }
 
     /**
-     * Runs the specified action on the Main thread.
+     * Subscribes the feedback functions on the main thread.
      *
      * @return {@code AsyncObject}
      */
-    public AsyncObject<O> runOnMainThread() {
-        runOnMainThread = true;
+    public AsyncObject<O> subscribeOnMainThread() {
+        subscribeOnMainThread = true;
         return this;
     }
 
@@ -143,7 +143,7 @@ public final class AsyncObject<O> {
      */
     public void run() {
         if (action != null) {
-            if (runOnMainThread) {
+            if (subscribeOnMainThread) {
                 handler = new Handler(Looper.getMainLooper());
             } else {
                 if (Looper.myLooper() == Looper.getMainLooper()) {
