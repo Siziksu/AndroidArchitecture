@@ -48,21 +48,21 @@ This demo uses a version for Android of my own [JavaAsyncObject](https://github.
 ```java
 new AsyncObject<OpenWeather>()
                 .runOnMainThread()
-                .action(() -> new WeatherData().getWeather(city))
-                .done(listener::done)
-                .success(listener::success)
-                .error(listener::error)
+                .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
+                .success(response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()))
+                .error(e -> Log.d(Constants.TAG, e.getMessage(), e))
+                .done(() -> Log.d(Constants.TAG, "Action successfully completed"))
                 .run();
 ```
 
 ```java
 new AsyncObject<OpenWeather>()
                 .runOnMainThread()
-                .action(() -> new WeatherData().getWeather(city))
+                .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
                 .subscribe(
-                    success, 
-                    error, 
-                    done
+                    response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()),
+                    e -> Log.d(Constants.TAG, e.getMessage(), e),
+                    () -> Log.d(Constants.TAG, "Action successfully completed")
                 )
                 .run();
 ```
