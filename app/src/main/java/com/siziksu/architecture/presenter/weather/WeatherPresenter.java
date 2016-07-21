@@ -37,6 +37,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
     public void getWeather(String city) {
         if (!getWeatherRequestActive) {
             if (view != null) {
+                getWeatherRequestActive = true;
                 view.showProgress(true);
                 WeatherDomain.getInstance().getWeather(
                         city,
@@ -64,6 +65,5 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                 );
             }
         }
-        getWeatherRequestActive = true;
     }
 }
