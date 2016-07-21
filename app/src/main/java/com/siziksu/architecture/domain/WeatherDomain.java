@@ -1,5 +1,6 @@
 package com.siziksu.architecture.domain;
 
+import com.siziksu.architecture.common.functions.Action;
 import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Error;
 import com.siziksu.architecture.common.functions.Success;
@@ -11,42 +12,52 @@ import com.siziksu.architecture.domain.weather.GetWeatherRequest;
  */
 public final class WeatherDomain {
 
-    private static WeatherDomain instance;
-
-    private WeatherDomain() {
-        // Private constructor
-    }
-
     /**
-     * This class must be initialized before asking for an instance.
+     * Weather class.
      */
-    public static void init() {
-        if (instance == null) {
-            instance = new WeatherDomain();
+    public static class Weather {
+
+        private String city;
+
+        /**
+         * Constructor.
+         */
+        public Weather() {
+            // Constructor
         }
-    }
 
-    /**
-     * This method provides an instance of this class. First needs to be initialized.
-     *
-     * @return the instance
-     */
-    public static WeatherDomain getInstance() {
-        if (instance == null) {
-            throw new RuntimeException("This class must be initialized");
+        /**
+         * Sets the city.
+         *
+         * @param city the city
+         *
+         * @return {@link Weather}
+         */
+        public Weather setCity(String city) {
+            this.city = city;
+            return this;
         }
-        return instance;
-    }
 
-    /**
-     * Gets Weather
-     *
-     * @param city    the city
-     * @param success the success function
-     * @param error   the error function
-     * @param done    the done function
-     */
-    public void getWeather(final String city, final Success<OpenWeather> success, final Error error, final Done done) {
-        new GetWeatherRequest(city).subscribe(success, error, done).run();
+        /**
+         * Sets the {@link Success} used to return the response if the
+         * {@link Action} ends successfully.
+         * <br />
+         * Sets the {@link Error} used to return {@link Exception} that will be
+         * thrown if the {@link Action} fails.
+         * <br />
+         * Sets the {@link Done} used to emit when the response of the
+         * {@link Action} ends.
+         * <br />
+         * And runs the request.
+         *
+         * @param success the success function
+         * @param error   the error function
+         * @param done    the done function
+         */
+        public void subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
+            new GetWeatherRequest()
+                    .setCity(city)
+                    .subscribe(success, error, done);
+        }
     }
 }

@@ -13,18 +13,25 @@ import com.siziksu.architecture.data.WeatherData;
  */
 public final class GetWeatherRequest {
 
-    private final String city;
-    private Success<OpenWeather> success;
-    private Error error;
-    private Done done;
+    private String city;
 
     /**
      * Constructor.
+     */
+    public GetWeatherRequest() {
+        // Constructor
+    }
+
+    /**
+     * Sets the city for the request.
      *
      * @param city the city
+     *
+     * @return {@link GetWeatherRequest}
      */
-    public GetWeatherRequest(String city) {
+    public GetWeatherRequest setCity(String city) {
         this.city = city;
+        return this;
     }
 
     /**
@@ -36,28 +43,17 @@ public final class GetWeatherRequest {
      * <br />
      * Sets the {@link Done} used to emit when the response of the
      * {@link Action} ends.
+     * <br />
+     * And runs the request.
      *
      * @param success the Success that will be used
      * @param error   the Error that will be used
      * @param done    the Done that will be used
-     *
-     * @return {@code GetWeatherRequest}
      */
-    public GetWeatherRequest subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
-        this.success = success;
-        this.error = error;
-        this.done = done;
-        return this;
-    }
-
-    /**
-     * Runs the request.
-     */
-    public void run() {
+    public void subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
         new AsyncObject<OpenWeather>()
                 .runOnMainThread()
                 .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
-                .subscribe(success, error, done)
-                .run();
+                .subscribe(success, error, done);
     }
 }

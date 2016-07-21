@@ -39,30 +39,30 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                WeatherDomain.getInstance().getWeather(
-                        city,
-                        response -> {
-                            if (view != null && response != null) {
-                                view.onWeather(
-                                        response.getName(),
-                                        String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
-                                        String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
-                                );
-                            }
-                        },
-                        e -> {
-                            if (view != null) {
-                                Log.d(Constants.TAG, e.getMessage(), e);
-                                view.onWeatherError();
-                            }
-                        },
-                        () -> {
-                            if (view != null) {
-                                view.showProgress(false);
-                            }
-                            getWeatherRequestActive = false;
-                        }
-                );
+                new WeatherDomain.Weather()
+                        .setCity(city)
+                        .subscribe(
+                                response -> {
+                                    if (view != null && response != null) {
+                                        view.onWeather(
+                                                response.getName(),
+                                                String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
+                                                String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
+                                        );
+                                    }
+                                },
+                                e -> {
+                                    if (view != null) {
+                                        Log.d(Constants.TAG, e.getMessage(), e);
+                                        view.onWeatherError();
+                                    }
+                                },
+                                () -> {
+                                    if (view != null) {
+                                        view.showProgress(false);
+                                    }
+                                    getWeatherRequestActive = false;
+                                });
             }
         }
     }
