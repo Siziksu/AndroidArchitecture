@@ -40,7 +40,7 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
                 new WeatherDomain.Weather()
-                        .setCity(city)
+                        .city(city)
                         .subscribe(
                                 response -> {
                                     if (view != null && response != null) {

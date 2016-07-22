@@ -13,6 +13,8 @@ import com.siziksu.architecture.data.WeatherData;
  */
 public final class GetWeatherRequest {
 
+    private static final long EXPIRY_TIME = 5000;
+
     private String city;
 
     /**
@@ -29,7 +31,7 @@ public final class GetWeatherRequest {
      *
      * @return {@link GetWeatherRequest}
      */
-    public GetWeatherRequest setCity(String city) {
+    public GetWeatherRequest city(String city) {
         this.city = city;
         return this;
     }
@@ -53,7 +55,11 @@ public final class GetWeatherRequest {
     public void subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
         new AsyncObject<OpenWeather>()
                 .subscribeOnMainThread()
-                .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
+                .action(() -> new WeatherData.Weather()
+                        .city(city)
+                        .useCache()
+                        .cacheExpiryTime(EXPIRY_TIME)
+                        .run())
                 .subscribe(success, error, done);
     }
 }

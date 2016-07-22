@@ -33,7 +33,7 @@ public final class WeatherDomain {
          *
          * @return {@link Weather}
          */
-        public Weather setCity(String city) {
+        public Weather city(String city) {
             this.city = city;
             return this;
         }
@@ -56,7 +56,7 @@ public final class WeatherDomain {
          */
         public void subscribe(final Success<OpenWeather> success, final Error error, final Done done) {
             new GetWeatherRequest()
-                    .setCity(city)
+                    .city(city)
                     .subscribe(success, error, done);
         }
     }

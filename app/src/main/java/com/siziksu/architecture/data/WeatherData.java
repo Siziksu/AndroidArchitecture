@@ -15,10 +15,11 @@ public final class WeatherData {
     public static class Weather extends Data {
 
         private static final String KEY_WEATHER_CACHE = "weather_cache";
-        private static final long EXPIRY_TIME_WEATHER = 10000;
+        private static final long EXPIRY_TIME = 30000;
 
         private String city;
         private boolean useCache;
+        private long expiry;
 
         /**
          * Constructor.
@@ -34,7 +35,7 @@ public final class WeatherData {
          *
          * @return {@link Weather}
          */
-        public Weather setCity(String city) {
+        public Weather city(String city) {
             this.city = city;
             return this;
         }
@@ -50,6 +51,18 @@ public final class WeatherData {
         }
 
         /**
+         * Sets the expiry time for the cache. Default expiry time is 30 seconds.
+         *
+         * @param millis the milliseconds
+         *
+         * @return {@link Weather}
+         */
+        public Weather cacheExpiryTime(long millis) {
+            this.expiry = millis;
+            return this;
+        }
+
+        /**
          * Runs the request.
          *
          * @return {@link OpenWeather}
@@ -60,7 +73,8 @@ public final class WeatherData {
                 return new WeatherClient().getWeather(city);
             }
             String cache = getCache(KEY_WEATHER_CACHE);
-            if (isCacheValid(cache, KEY_WEATHER_CACHE, EXPIRY_TIME_WEATHER)) {
+            long expiryTime = expiry > 0 ? expiry : EXPIRY_TIME;
+            if (isCacheValid(cache, KEY_WEATHER_CACHE, expiryTime)) {
                 openWeather = new Gson().fromJson(cache, OpenWeather.class);
             } else {
                 openWeather = new WeatherClient().getWeather(city);
