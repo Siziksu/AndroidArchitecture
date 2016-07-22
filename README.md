@@ -48,7 +48,11 @@ This demo uses a version for Android of my own [JavaAsyncObject](https://github.
 ```java
 new AsyncObject<OpenWeather>()
                 .subscribeOnMainThread()
-                .action(() -> new WeatherData.Weather().setCity(city).useCache().run())
+                .action(() -> new WeatherData.Weather()
+                        .city(city)
+                        .useCache()
+                        .cacheExpiryTime(EXPIRY_TIME)
+                        .run()))
                 .subscribe(
                     response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()),
                     e -> Log.d(Constants.TAG, e.getMessage(), e),
