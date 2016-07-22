@@ -60,6 +60,7 @@ public final class GetWeatherRequest {
                         .useCache()
                         .cacheExpiryTime(EXPIRY_TIME)
                         .run())
-                .subscribe(success, error, done);
+                .done(done)
+                .subscribe(success, error);
     }
 }

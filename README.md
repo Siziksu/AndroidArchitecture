@@ -53,10 +53,10 @@ new AsyncObject<OpenWeather>()
                         .useCache()
                         .cacheExpiryTime(EXPIRY_TIME)
                         .run()))
+                .done(() -> Log.d(Constants.TAG, "Action successfully completed"))
                 .subscribe(
                     response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()),
-                    e -> Log.d(Constants.TAG, e.getMessage(), e),
-                    () -> Log.d(Constants.TAG, "Action successfully completed")
+                    e -> Log.d(Constants.TAG, e.getMessage(), e)  
                 );
 ```
 
