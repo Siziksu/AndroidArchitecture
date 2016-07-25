@@ -6,6 +6,7 @@ Demo of architecture for Android.
 
 This demo uses:
 
++ `RxAndroid`
 + `Jack toolchain`
 + `Lambdas`
 + `Retrofit 2`
@@ -35,29 +36,46 @@ dependencies {
     compile com.squareup.retrofit2:converter-gson:2.0.2
     compile com.squareup.okhttp3:okhttp:3.3.1
     compile com.squareup.okhttp3:logging-interceptor:3.3.1
+    compile io.reactivex:rxjava:1.1.8
+    compile io.reactivex:rxandroid:1.2.1
 }
 ```
 
 ## Use Case
 With this demo we will request to the [OpenWeatherMap](http://openweathermap.org/) service for the current temperature of Barcelona, Spain.
 
-## AsyncObject for Android
+## RxAndroid
 
-This demo uses a version for Android of my own [JavaAsyncObject](https://github.com/Siziksu/JavaAsyncObject).
+This demo uses RxAndroid.
 
 ```java
-new AsyncObject<OpenWeather>()
-                .subscribeOnMainThread()
-                .action(() -> new WeatherData.Weather()
-                        .city(city)
-                        .useCache()
-                        .cacheExpiryTime(EXPIRY_TIME)
-                        .run()))
-                .done(() -> Log.d(Constants.TAG, "Action successfully completed"))
-                .subscribe(
-                    response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()),
-                    e -> Log.d(Constants.TAG, e.getMessage(), e)  
-                );
+
+public void getWeather(final String city) {
+    Observable.create(subscriber(city))
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribeOn(Schedulers.newThread())
+              .subscribe(
+                      response -> Log.d(Constants.TAG, "Temperature: " + response.getMain().getTemperature()),
+                      throwable -> Log.d(Constants.TAG, throwable.getMessage(), throwable),
+                      () -> Log.d(Constants.TAG, "Action successfully completed")
+              );
+}
+
+public Observable.OnSubscribe<OpenWeather> subscriber(final String city) {
+    return subscriber -> {
+        try {
+            OpenWeather result = new WeatherData.Weather()
+                    .city(city)
+                    .useCache()
+                    .cacheExpiryTime(EXPIRY_TIME)
+                    .run();
+            subscriber.onNext(result);
+            subscriber.onCompleted();
+        } catch (Exception e) {
+            subscriber.onError(e);
+        }
+    };
+}
 ```
 
 ## Architecture
