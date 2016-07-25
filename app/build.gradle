@@ -46,5 +46,7 @@ dependencies {
     compile retrofit2
     compile retrofit2_converter_gson
     compile okhttp_loggin_interceptor
+    compile rxjava
+    compile rxandroid
     testCompile junit
 }

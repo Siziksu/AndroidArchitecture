@@ -1,14 +1,14 @@
 package com.siziksu.architecture.common.functions;
 
 /**
- * Function that returns an {@link Exception}.
+ * Function that returns a {@link Throwable}.
  */
-public interface Error {
+public interface Fail {
 
     /**
      * This method will be executed if the action fails.
      *
-     * @param e the exception returned
+     * @param e the throwable returned
      */
-    void error(Exception e);
+    void fail(Throwable e);
 }

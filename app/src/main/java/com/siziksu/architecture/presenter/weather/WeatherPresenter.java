@@ -51,9 +51,9 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
                                         );
                                     }
                                 },
-                                e -> {
+                                throwable -> {
                                     if (view != null) {
-                                        Log.d(Constants.TAG, e.getMessage(), e);
+                                        Log.d(Constants.TAG, throwable.getMessage(), throwable);
                                         view.onWeatherError();
                                     }
                                 },
