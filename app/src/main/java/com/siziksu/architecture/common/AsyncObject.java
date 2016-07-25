@@ -137,7 +137,7 @@ public final class AsyncObject<O> {
                 executing = true;
                 try {
                     O response = action.action();
-                    if (success != null) {
+                    if (response != null && success != null) {
                         success(response);
                     } else {
                         Log.d("AsyncObject", "Action successfully completed");

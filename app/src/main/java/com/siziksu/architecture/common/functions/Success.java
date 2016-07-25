@@ -1,7 +1,7 @@
 package com.siziksu.architecture.common.functions;
 
 /**
- * This task returns a response.
+ * Function that returns a response.
  */
 public interface Success<O> {
 

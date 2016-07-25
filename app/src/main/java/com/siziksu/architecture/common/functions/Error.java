@@ -1,7 +1,7 @@
 package com.siziksu.architecture.common.functions;
 
 /**
- * This task returns an {@link Exception}.
+ * Function that returns an {@link Exception}.
  */
 public interface Error {
 

@@ -1,7 +1,7 @@
 package com.siziksu.architecture.common.functions;
 
 /**
- * Task that emits when an action is done.
+ * Function that emits when an action is done.
  */
 public interface Done {
 
