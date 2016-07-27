@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
@@ -6,9 +8,6 @@ android {
     buildToolsVersion build_tools_version
 
     defaultConfig {
-        jackOptions {
-            enabled true
-        }
         applicationId application_id
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
@@ -37,12 +36,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile android_design
+    apt butterknife_compiler
+    compile butterknife
     compile android_appcompat_v7
-    compile android_recyclerview_v7
-    compile android_cardview_v7
-    compile android_support_v4
-    compile android_support_annotations
     compile retrofit2
     compile retrofit2_converter_gson
     compile okhttp_loggin_interceptor

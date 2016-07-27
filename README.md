@@ -6,25 +6,55 @@ Demo of architecture for Android.
 
 This demo uses:
 
-+ `RxAndroid`
-+ `Jack toolchain`
-+ `Lambdas`
-+ `Retrofit 2`
-+ `Okhttp 3`
++ `Butterknife 8.2.1`
++ `RxAndroid 1.2.1`
++ `Retrolambda 3.2.5`
++ `Retrofit 2 2.0.2`
++ `Okhttp 3.3.1`
 + `Gson`
 
-```
-android {
+### Project build.gradle
 
-    compileSdkVersion 23
-    buildToolsVersion 24.0.0
+```java
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+```
+
+### Module build.gradle
+
+
+```java
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
-        jackOptions {
-            enabled true
-        }
+        applicationId "com.siziksu.architecture"
+        minSdkVersion 19
+        targetSdkVersion 22
+        versionCode 2219001
+        versionName "0.0.1"
+        testInstrumentationRunner test_instrumentation_runner
     }
-
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -32,6 +62,9 @@ android {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    apt "com.jakewharton:butterknife-compiler:8.2.1"
+    compile "com.jakewharton:butterknife:8.2.1"
     compile com.squareup.retrofit2:retrofit:2.0.2
     compile com.squareup.retrofit2:converter-gson:2.0.2
     compile com.squareup.okhttp3:okhttp:3.3.1
@@ -42,6 +75,7 @@ dependencies {
 ```
 
 ## Use Case
+
 With this demo we will request to the [OpenWeatherMap](http://openweathermap.org/) service for the current temperature of Barcelona, Spain.
 
 ## RxAndroid
@@ -121,6 +155,7 @@ As said before, all the layers will have access to the `Common` layer which cont
 Each layer has a `Listener` to pass the data back (`Callbacks`).
 
 ## License
+
     Copyright 2016 Esteban Latre
 
     Licensed under the Apache License, Version 2.0 (the "License");

@@ -15,6 +15,9 @@ import com.siziksu.architecture.presenter.weather.WeatherContract;
 import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * MainActivity class.
  */
@@ -24,24 +27,27 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
 
     private WeatherPresenter presenter;
 
-    private TextView textViewPlace;
-    private TextView textViewTemperature;
-    private TextView textViewUpdate;
-    private TextView TextViewError;
-    private ProgressBar progressBar;
+    @BindView(R.id.textViewPlace)
+    TextView textViewPlace;
+    @BindView(R.id.textViewTemperature)
+    TextView textViewTemperature;
+    @BindView(R.id.textViewUpdate)
+    TextView textViewUpdate;
+    @BindView(R.id.textViewError)
+    TextView textViewError;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.defaultToolbar)
+    Toolbar defaultToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.setDebug(true);
+        ButterKnife.bind(this);
         presenter = new WeatherPresenter();
-        Toolbar defaultToolbar = (Toolbar) findViewById(R.id.defaultToolbar);
         ActivityCommon.getInstance().applyToolBarStyleWithHome(this, defaultToolbar);
-        textViewPlace = (TextView) findViewById(R.id.textViewPlace);
-        textViewTemperature = (TextView) findViewById(R.id.textViewTemperature);
-        textViewUpdate = (TextView) findViewById(R.id.textViewUpdate);
-        TextViewError = (TextView) findViewById(R.id.TextViewError);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override
@@ -64,15 +70,15 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
 
     @Override
     public void onWeather(String place, String temperature, String currentTime) {
-        this.textViewPlace.setText(place);
-        this.textViewTemperature.setText(temperature);
+        textViewPlace.setText(place);
+        textViewTemperature.setText(temperature);
         textViewUpdate.setText(currentTime);
-        TextViewError.setVisibility(View.GONE);
+        textViewError.setVisibility(View.GONE);
     }
 
     @Override
     public void onWeatherError() {
-        TextViewError.setVisibility(View.VISIBLE);
+        textViewError.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -41,7 +41,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/TextViewError"
+            android:id="@+id/textViewError"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

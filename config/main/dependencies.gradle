@@ -1,6 +1,6 @@
 ext {
     // Versions
-    android_support_version             = '23.4.0'
+    android_support_version             = '22.2.1'
     android_support_v4_version          = android_support_version
     android_support_annotations_version = android_support_version
     android_appcompat_v7_version        = android_support_version
@@ -15,7 +15,7 @@ ext {
     retrofit2_version                   = '2.0.2'
     okhttp_version                      = '3.3.1'
     okhttp_loggin_interceptor_version   = '3.3.1'
-    butterknife_version                 = '7.0.1'
+    butterknife_version                 = '8.2.1'
     realm_version                       = '0.87.5'
     rxandroid_version                   = '1.2.1'
     rxjava_version                      = '1.1.8'
@@ -45,6 +45,7 @@ ext {
     okhhtp                      = "com.squareup.okhttp3:okhttp:${okhttp_version}"
     okhttp_loggin_interceptor   = "com.squareup.okhttp3:logging-interceptor:${okhttp_loggin_interceptor_version}"
     butterknife                 = "com.jakewharton:butterknife:${butterknife_version}"
+    butterknife_compiler        = "com.jakewharton:butterknife-compiler:${butterknife_version}"
     realm                       = "io.realm:realm-android:${realm_version}"
     rxandroid                   = "io.reactivex:rxandroid:${rxandroid_version}"
     rxjava                      = "io.reactivex:rxjava:${rxjava_version}"
