@@ -9,7 +9,7 @@ This demo uses:
 + `Butterknife 8.2.1`
 + `RxAndroid 1.2.1`
 + `Retrolambda 3.2.5`
-+ `Retrofit 2 2.0.2`
++ `Retrofit 2.0.2`
 + `Okhttp 3.3.1`
 + `Gson`
 
