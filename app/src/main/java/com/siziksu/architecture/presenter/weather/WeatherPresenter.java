@@ -5,6 +5,7 @@ import android.util.Log;
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
+import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.domain.WeatherDomain;
 
 /**
@@ -32,11 +33,7 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
                         .subscribe(
                                 response -> {
                                     if (view != null && response != null) {
-                                        view.onWeather(
-                                                response.getName(),
-                                                String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()),
-                                                String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime())
-                                        );
+                                        processResponse(response);
                                     }
                                 },
                                 throwable -> {
@@ -53,5 +50,12 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
                                 });
             }
         }
+    }
+
+    private void processResponse(OpenWeather response) {
+        String place = response.getName();
+        String temperature = String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature());
+        String currentTime = String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime());
+        view.onWeather(place, temperature, currentTime);
     }
 }

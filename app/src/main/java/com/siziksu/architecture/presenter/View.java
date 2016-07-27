@@ -2,6 +2,9 @@ package com.siziksu.architecture.presenter;
 
 import android.app.Activity;
 
+/**
+ * View class.
+ */
 public interface View {
 
     /**
