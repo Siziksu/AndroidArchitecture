@@ -10,9 +10,7 @@ import com.siziksu.architecture.domain.WeatherDomain;
 /**
  * WeatherPresenter class.
  */
-public class WeatherPresenter implements WeatherContract.WeatherPresenter {
-
-    private WeatherContract.WeatherView view;
+public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherContract.WeatherView> {
 
     private boolean getWeatherRequestActive;
 
@@ -21,16 +19,6 @@ public class WeatherPresenter implements WeatherContract.WeatherPresenter {
      */
     public WeatherPresenter() {
         // Constructor
-    }
-
-    @Override
-    public void register(final WeatherContract.WeatherView view) {
-        this.view = view;
-    }
-
-    @Override
-    public void unregister() {
-        this.view = null;
     }
 
     @Override

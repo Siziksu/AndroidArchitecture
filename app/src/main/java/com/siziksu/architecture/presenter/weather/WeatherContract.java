@@ -1,6 +1,7 @@
 package com.siziksu.architecture.presenter.weather;
 
-import android.app.Activity;
+import com.siziksu.architecture.presenter.Presenter;
+import com.siziksu.architecture.presenter.View;
 
 /**
  * WeatherContract class. Contract between the view and its presenter.
@@ -10,21 +11,7 @@ public interface WeatherContract {
     /**
      * View.
      */
-    interface WeatherView {
-
-        /**
-         * Returns the activity in which the view is hold.
-         *
-         * @return the activity
-         */
-        Activity getActivity();
-
-        /**
-         * Show progress.
-         *
-         * @param value the value
-         */
-        void showProgress(boolean value);
+    interface WeatherView extends View {
 
         /**
          * When we have the weather response.
@@ -44,26 +31,14 @@ public interface WeatherContract {
     /**
      * Presenter.
      */
-    interface WeatherPresenter {
-
-        /**
-         * Registers the view.
-         *
-         * @param view The view to register
-         */
-        void register(WeatherView view);
-
-        /**
-         * Unregisters the view.
-         */
-        void unregister();
+    abstract class WeatherPresenter<T extends View> extends Presenter<T> {
 
         /**
          * Gets weather for a city.
          *
          * @param city the city
          */
-        void getWeather(String city);
+        public abstract void getWeather(String city);
     }
 
 }

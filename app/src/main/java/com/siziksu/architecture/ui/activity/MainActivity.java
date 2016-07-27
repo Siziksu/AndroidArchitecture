@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
 
     private static final String CITY = "Barcelona,Spain";
 
-    private WeatherPresenter presenter;
+    private WeatherContract.WeatherPresenter<WeatherContract.WeatherView> presenter;
 
     @BindView(R.id.textViewPlace)
     TextView textViewPlace;
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
         presenter = new WeatherPresenter();
         ActivityCommon.getInstance().applyToolBarStyleWithHome(this, defaultToolbar);
