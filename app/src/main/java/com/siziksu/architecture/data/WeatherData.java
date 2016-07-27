@@ -1,8 +1,7 @@
 package com.siziksu.architecture.data;
 
-import com.google.gson.Gson;
+import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.data.client.weather.WeatherClient;
 
 /**
  * WeatherData class.
@@ -12,7 +11,7 @@ public final class WeatherData {
     /**
      * Weather class.
      */
-    public static class Weather extends Data {
+    public static class GetWeather extends Data {
 
         private static final String KEY_WEATHER_CACHE = "weather_cache";
         private static final long EXPIRY_TIME = 30000;
@@ -24,7 +23,7 @@ public final class WeatherData {
         /**
          * Constructor.
          */
-        public Weather() {
+        public GetWeather() {
             // Constructor
         }
 
@@ -33,9 +32,9 @@ public final class WeatherData {
          *
          * @param city the city
          *
-         * @return {@link Weather}
+         * @return {@link GetWeather}
          */
-        public Weather city(String city) {
+        public GetWeather city(String city) {
             this.city = city;
             return this;
         }
@@ -43,9 +42,9 @@ public final class WeatherData {
         /**
          * Uses cache.
          *
-         * @return {@link Weather}
+         * @return {@link GetWeather}
          */
-        public Weather useCache() {
+        public GetWeather useCache() {
             this.useCache = true;
             return this;
         }
@@ -55,9 +54,9 @@ public final class WeatherData {
          *
          * @param millis the milliseconds
          *
-         * @return {@link Weather}
+         * @return {@link GetWeather}
          */
-        public Weather cacheExpiryTime(long millis) {
+        public GetWeather cacheExpiryTime(long millis) {
             this.expiry = millis;
             return this;
         }
@@ -70,16 +69,16 @@ public final class WeatherData {
         public OpenWeather run() {
             OpenWeather openWeather;
             if (!useCache) {
-                return new WeatherClient().getWeather(city);
+                return Injector.provideWeatherClient().getWeather(city);
             }
             String cache = getCache(KEY_WEATHER_CACHE);
             long expiryTime = expiry > 0 ? expiry : EXPIRY_TIME;
             if (isCacheValid(cache, KEY_WEATHER_CACHE, expiryTime)) {
-                openWeather = new Gson().fromJson(cache, OpenWeather.class);
+                openWeather = Injector.provideGson().fromJson(cache, OpenWeather.class);
             } else {
-                openWeather = new WeatherClient().getWeather(city);
+                openWeather = Injector.provideWeatherClient().getWeather(city);
                 if (openWeather != null) {
-                    cache = new Gson().toJson(openWeather);
+                    cache = Injector.provideGson().toJson(openWeather);
                     setCache(KEY_WEATHER_CACHE, cache);
                 }
             }

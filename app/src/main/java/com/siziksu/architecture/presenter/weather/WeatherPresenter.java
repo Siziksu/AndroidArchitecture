@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
+import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.domain.WeatherDomain;
 
 /**
  * WeatherPresenter class.
@@ -28,7 +28,7 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                new WeatherDomain.Weather()
+                Injector.provideGetWeatherDomain()
                         .city(city)
                         .subscribe(
                                 response -> {

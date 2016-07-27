@@ -11,8 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.siziksu.architecture.R;
+import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.presenter.weather.WeatherContract;
-import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
 import butterknife.BindView;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = new WeatherPresenter();
+        presenter = Injector.provideWeatherPresenter();
         ActivityCommon.getInstance().applyToolBarStyleWithHome(this, defaultToolbar);
     }
 

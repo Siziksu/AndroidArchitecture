@@ -1,10 +1,10 @@
 package com.siziksu.architecture.domain;
 
+import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.domain.weather.GetWeatherRequest;
 
 /**
  * WeatherDomain class.
@@ -14,14 +14,14 @@ public final class WeatherDomain {
     /**
      * Weather class.
      */
-    public static class Weather {
+    public static class GetWeather {
 
         private String city;
 
         /**
          * Constructor.
          */
-        public Weather() {
+        public GetWeather() {
             // Constructor
         }
 
@@ -30,9 +30,9 @@ public final class WeatherDomain {
          *
          * @param city the city
          *
-         * @return {@link Weather}
+         * @return {@link GetWeather}
          */
-        public Weather city(String city) {
+        public GetWeather city(String city) {
             this.city = city;
             return this;
         }
@@ -54,7 +54,7 @@ public final class WeatherDomain {
          * @param done    the done function
          */
         public void subscribe(final Success<OpenWeather> success, final Fail fail, final Done done) {
-            new GetWeatherRequest()
+            Injector.provideGetWeatherRequest()
                     .city(city)
                     .subscribe(success, fail, done);
         }
