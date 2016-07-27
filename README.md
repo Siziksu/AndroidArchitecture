@@ -65,12 +65,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     apt "com.jakewharton:butterknife-compiler:8.2.1"
     compile "com.jakewharton:butterknife:8.2.1"
-    compile com.squareup.retrofit2:retrofit:2.0.2
-    compile com.squareup.retrofit2:converter-gson:2.0.2
-    compile com.squareup.okhttp3:okhttp:3.3.1
-    compile com.squareup.okhttp3:logging-interceptor:3.3.1
-    compile io.reactivex:rxjava:1.1.8
-    compile io.reactivex:rxandroid:1.2.1
+    compile "com.squareup.retrofit2:retrofit:2.0.2"
+    compile "com.squareup.retrofit2:converter-gson:2.0.2"
+    compile "com.squareup.okhttp3:okhttp:3.3.1"
+    compile "com.squareup.okhttp3:logging-interceptor:3.3.1"
+    compile "io.reactivex:rxjava:1.1.8"
+    compile "io.reactivex:rxandroid:1.2.1"
 }
 ```
 
