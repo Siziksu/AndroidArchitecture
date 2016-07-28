@@ -11,7 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.siziksu.architecture.R;
-import com.siziksu.architecture.injection.Injector;
+import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
+import com.siziksu.architecture.provider.Provider;
 import com.siziksu.architecture.presenter.weather.WeatherContract;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = Injector.get().weather().presenter();
+        presenter = Provider.get().weather().presenter();
         ActivityCommon.get().applyToolBarStyleWithHome(this, defaultToolbar);
     }
 
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
     }
 
     @Override
-    public void onWeather(String place, String temperature, String currentTime) {
-        textViewPlace.setText(place);
-        textViewTemperature.setText(temperature);
-        textViewUpdate.setText(currentTime);
+    public void onWeather(WeatherResponse weatherResponse) {
+        textViewPlace.setText(weatherResponse.getPlace());
+        textViewTemperature.setText(weatherResponse.getTemperature());
+        textViewUpdate.setText(weatherResponse.getTime());
         textViewError.setVisibility(View.GONE);
     }
 

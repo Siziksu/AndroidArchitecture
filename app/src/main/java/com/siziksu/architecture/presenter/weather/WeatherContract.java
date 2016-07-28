@@ -1,5 +1,6 @@
 package com.siziksu.architecture.presenter.weather;
 
+import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
 import com.siziksu.architecture.presenter.Presenter;
 import com.siziksu.architecture.presenter.View;
 
@@ -16,11 +17,9 @@ public interface WeatherContract {
         /**
          * When we have the weather response.
          *
-         * @param place       the place
-         * @param temperature the temperature
-         * @param currentTime the current time
+         * @param weatherResponse the response
          */
-        void onWeather(String place, String temperature, String currentTime);
+        void onWeather(WeatherResponse weatherResponse);
 
         /**
          * On weather error.

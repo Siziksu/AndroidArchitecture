@@ -6,7 +6,8 @@ import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.injection.Injector;
+import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
+import com.siziksu.architecture.provider.Provider;
 
 /**
  * WeatherPresenter class.
@@ -28,7 +29,7 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                Injector.get().weather().domain().getWeather()
+                Provider.get().weather().domain().getWeather()
                         .city(city)
                         .subscribe(
                                 response -> {
@@ -53,9 +54,10 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
     }
 
     private void processGetWeatherResponse(OpenWeather response) {
-        String place = response.getName();
-        String temperature = String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature());
-        String currentTime = String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime());
-        view.onWeather(place, temperature, currentTime);
+        WeatherResponse weatherResponse = new WeatherResponse();
+        weatherResponse.setPlace(response.getName());
+        weatherResponse.setTemperature(String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature()));
+        weatherResponse.setTime(String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime()));
+        view.onWeather(weatherResponse);
     }
 }

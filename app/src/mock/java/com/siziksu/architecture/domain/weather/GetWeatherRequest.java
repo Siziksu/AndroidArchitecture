@@ -8,7 +8,7 @@ import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.injection.Injector;
+import com.siziksu.architecture.provider.Injector;
 
 /**
  * Request class.

@@ -4,7 +4,7 @@ import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.injection.Injector;
+import com.siziksu.architecture.provider.Provider;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -66,7 +66,7 @@ public final class GetWeatherRequest {
     public Observable.OnSubscribe<OpenWeather> subscriber() {
         return subscriber -> {
             try {
-                OpenWeather result = Injector.get().weather().data().getWeather()
+                OpenWeather result = Provider.get().weather().data().getWeather()
                                              .city(city)
                                              .useCache()
                                              .cacheExpiryTime(EXPIRY_TIME)

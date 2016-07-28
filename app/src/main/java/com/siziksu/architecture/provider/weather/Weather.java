@@ -1,4 +1,4 @@
-package com.siziksu.architecture.injection.weather;
+package com.siziksu.architecture.provider.weather;
 
 import com.siziksu.architecture.data.client.weather.WeatherClient;
 import com.siziksu.architecture.presenter.weather.WeatherPresenter;

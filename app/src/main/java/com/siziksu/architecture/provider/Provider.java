@@ -1,17 +1,17 @@
-package com.siziksu.architecture.injection;
+package com.siziksu.architecture.provider;
 
 import com.google.gson.Gson;
-import com.siziksu.architecture.injection.weather.Weather;
+import com.siziksu.architecture.provider.weather.Weather;
 
 /**
- * Injector class.
+ * Provider class.
  */
-public class Injector {
+public class Provider {
 
-    private static Injector instance;
+    private static Provider instance;
     private static Gson gson;
 
-    private Injector() {
+    private Provider() {
         // Constructor
     }
 
@@ -20,9 +20,9 @@ public class Injector {
      *
      * @return the injector
      */
-    public static Injector get() {
+    public static Provider get() {
         if (instance == null) {
-            instance = new Injector();
+            instance = new Provider();
         }
         return instance;
     }
