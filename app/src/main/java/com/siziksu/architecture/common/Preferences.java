@@ -30,7 +30,7 @@ public final class Preferences {
     /**
      * This method provides an instance of this class. First needs to be initialized.
      */
-    public static Preferences getInstance() {
+    public static Preferences get() {
         if (instance == null) {
             throw new RuntimeException("This class must be initialized");
         }

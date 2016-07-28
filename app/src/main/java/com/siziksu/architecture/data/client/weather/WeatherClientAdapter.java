@@ -32,7 +32,7 @@ public final class WeatherClientAdapter {
      *
      * @return {@link WeatherClientAdapter} object
      */
-    public static WeatherClientAdapter getInstance() {
+    public static WeatherClientAdapter get() {
         if (instance == null) {
             instance = new WeatherClientAdapter();
         }

@@ -1,10 +1,10 @@
 package com.siziksu.architecture.domain.weather;
 
-import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
+import com.siziksu.architecture.injection.Injector;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,11 +27,9 @@ public final class GetWeatherRequest {
     }
 
     /**
-     * Sets the city for the request.
+     * Sets the city
      *
      * @param city the city
-     *
-     * @return {@link GetWeatherRequest}
      */
     public GetWeatherRequest city(String city) {
         this.city = city;
@@ -68,7 +66,7 @@ public final class GetWeatherRequest {
     public Observable.OnSubscribe<OpenWeather> subscriber() {
         return subscriber -> {
             try {
-                OpenWeather result = Injector.provideGetWeatherData()
+                OpenWeather result = Injector.get().Weather().data().getWeather()
                                              .city(city)
                                              .useCache()
                                              .cacheExpiryTime(EXPIRY_TIME)

@@ -55,7 +55,7 @@ public final class ConnectionUtils {
      *
      * @return {@link ConnectionUtils} object
      */
-    public static ConnectionUtils getInstance() {
+    public static ConnectionUtils get() {
         if (instance == null) {
             throw new RuntimeException("This class must be initialized");
         }

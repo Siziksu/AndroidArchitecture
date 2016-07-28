@@ -43,7 +43,7 @@ public final class FileUtils {
      *
      * @return {@link ConnectionUtils} object
      */
-    public static FileUtils getInstance() {
+    public static FileUtils get() {
         if (instance == null) {
             throw new RuntimeException("This class must be initialized");
         }

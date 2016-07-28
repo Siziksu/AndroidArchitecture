@@ -8,7 +8,7 @@ import com.siziksu.architecture.common.Preferences;
 /**
  * Data class.
  */
-abstract class Data {
+public abstract class Data {
 
     private static final String CACHE_TIME_SUFFIX = "_time";
 
@@ -20,7 +20,7 @@ abstract class Data {
      * @return the cache
      */
     protected String getCache(String cacheKey) {
-        return Preferences.getInstance().getString(cacheKey, null);
+        return Preferences.get().getString(cacheKey, null);
     }
 
     /**
@@ -30,8 +30,8 @@ abstract class Data {
      * @param cache    the cache
      */
     protected void setCache(String cacheKey, String cache) {
-        Preferences.getInstance().setString(cacheKey, cache);
-        Preferences.getInstance().setLong(cacheKey + CACHE_TIME_SUFFIX, System.currentTimeMillis());
+        Preferences.get().setString(cacheKey, cache);
+        Preferences.get().setLong(cacheKey + CACHE_TIME_SUFFIX, System.currentTimeMillis());
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class Data {
      * @return the boolean
      */
     protected boolean cacheIsNotExpired(String cacheKey, long cacheExpiryTime) {
-        long cacheTime = Preferences.getInstance().getLong(cacheKey + CACHE_TIME_SUFFIX, System.currentTimeMillis());
+        long cacheTime = Preferences.get().getLong(cacheKey + CACHE_TIME_SUFFIX, System.currentTimeMillis());
         return cacheTime + cacheExpiryTime >= System.currentTimeMillis();
     }
 

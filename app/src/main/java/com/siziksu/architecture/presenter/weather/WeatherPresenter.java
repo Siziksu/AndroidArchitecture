@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.Constants;
-import com.siziksu.architecture.common.Injector;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
+import com.siziksu.architecture.injection.Injector;
 
 /**
  * WeatherPresenter class.
@@ -28,12 +28,12 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                Injector.provideGetWeatherDomain()
+                Injector.get().Weather().domain().getWeather()
                         .city(city)
                         .subscribe(
                                 response -> {
                                     if (view != null && response != null) {
-                                        processResponse(response);
+                                        processGetWeatherResponse(response);
                                     }
                                 },
                                 throwable -> {
@@ -52,7 +52,7 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
         }
     }
 
-    private void processResponse(OpenWeather response) {
+    private void processGetWeatherResponse(OpenWeather response) {
         String place = response.getName();
         String temperature = String.format(view.getActivity().getString(R.string.temperature), response.getMain().getTemperature());
         String currentTime = String.format(view.getActivity().getString(R.string.temperature_update_time), SystemUtils.getCurrentTime());

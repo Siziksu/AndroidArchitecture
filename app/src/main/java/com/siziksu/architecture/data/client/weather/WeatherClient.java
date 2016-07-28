@@ -14,7 +14,11 @@ import retrofit2.Call;
  */
 public final class WeatherClient {
 
-    private WeatherClientService service = WeatherClientAdapter.getInstance().getService();
+    private WeatherClientService service;
+
+    public WeatherClient() {
+        service = WeatherClientAdapter.get().getService();
+    }
 
     /**
      * Gets the {@link OpenWeather}.

@@ -28,7 +28,7 @@ public final class ActivityCommon {
      *
      * @return {@link ActivityCommon} object
      */
-    public static ActivityCommon getInstance() {
+    public static ActivityCommon get() {
         if (instance == null) {
             throw new RuntimeException("This class must be initialized");
         }
