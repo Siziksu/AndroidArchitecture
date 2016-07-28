@@ -40,11 +40,11 @@ public class Injector {
     }
 
     /**
-     * Provides the GetWeather injector.
+     * Provides the Weather object.
      *
-     * @return GetWeather injector
+     * @return Weather object
      */
-    public Weather Weather() {
+    public Weather weather() {
         return Weather.get();
     }
 }

@@ -66,7 +66,7 @@ public final class GetWeatherRequest {
     public Observable.OnSubscribe<OpenWeather> subscriber() {
         return subscriber -> {
             try {
-                OpenWeather result = Injector.get().Weather().data().getWeather()
+                OpenWeather result = Injector.get().weather().data().getWeather()
                                              .city(city)
                                              .useCache()
                                              .cacheExpiryTime(EXPIRY_TIME)

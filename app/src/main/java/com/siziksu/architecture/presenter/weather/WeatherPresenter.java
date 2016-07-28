@@ -28,7 +28,7 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                Injector.get().Weather().domain().getWeather()
+                Injector.get().weather().domain().getWeather()
                         .city(city)
                         .subscribe(
                                 response -> {

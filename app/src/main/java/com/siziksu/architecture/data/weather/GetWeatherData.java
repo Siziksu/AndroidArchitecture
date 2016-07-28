@@ -63,14 +63,14 @@ public final class GetWeatherData extends Data {
     public OpenWeather run() {
         OpenWeather openWeather;
         if (!useCache) {
-            return Injector.get().Weather().client().getWeather(city);
+            return Injector.get().weather().client().getWeather(city);
         }
         String cache = getCache(KEY_WEATHER_CACHE);
         long expiryTime = expiry > 0 ? expiry : EXPIRY_TIME;
         if (isCacheValid(cache, KEY_WEATHER_CACHE, expiryTime)) {
             openWeather = Injector.get().gson().fromJson(cache, OpenWeather.class);
         } else {
-            openWeather = Injector.get().Weather().client().getWeather(city);
+            openWeather = Injector.get().weather().client().getWeather(city);
             if (openWeather != null) {
                 cache = Injector.get().gson().toJson(openWeather);
                 setCache(KEY_WEATHER_CACHE, cache);
