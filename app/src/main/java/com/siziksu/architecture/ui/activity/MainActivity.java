@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.siziksu.architecture.App;
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
-import com.siziksu.architecture.provider.Provider;
 import com.siziksu.architecture.presenter.weather.WeatherContract;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = Provider.get().weather().presenter();
+        presenter = App.weather().getWeather();
         ActivityCommon.get().applyToolBarStyleWithHome(this, defaultToolbar);
     }
 

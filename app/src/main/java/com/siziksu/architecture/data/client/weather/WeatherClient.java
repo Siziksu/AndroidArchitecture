@@ -16,8 +16,8 @@ public final class WeatherClient {
 
     private WeatherClientService service;
 
-    public WeatherClient() {
-        service = WeatherClientAdapter.get().getService();
+    public WeatherClient(WeatherClientService service) {
+        this.service = service;
     }
 
     /**

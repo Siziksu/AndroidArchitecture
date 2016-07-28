@@ -2,24 +2,27 @@ package com.siziksu.architecture.domain.weather;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.FileUtils;
 import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.provider.Injector;
+import com.siziksu.architecture.data.weather.GetWeatherData;
 
 /**
  * Request class.
  */
 public final class GetWeatherRequest {
 
+    private final GetWeatherData getWeatherData;
+
     /**
      * Constructor.
      */
-    public GetWeatherRequest() {
-        // Constructor
+    public GetWeatherRequest(GetWeatherData getWeatherData) {
+        this.getWeatherData = getWeatherData;
     }
 
     public GetWeatherRequest city(String city) {
@@ -37,7 +40,7 @@ public final class GetWeatherRequest {
     public void subscribe(final Success<OpenWeather> success, final Fail fail, final Done done) {
         Log.d(Constants.TAG, "GetWeather mocked response");
         String response = FileUtils.get().getStringFromFile("get_weather/response.json");
-        OpenWeather openWeather = Injector.get().gson().fromJson(response, OpenWeather.class);
+        OpenWeather openWeather = new Gson().fromJson(response, OpenWeather.class);
         success.success(openWeather);
 //        fail.fail(new Throwable("GetWeather mocked error"));
         done.done();

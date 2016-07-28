@@ -5,6 +5,7 @@ import android.app.Application;
 import com.siziksu.architecture.common.ConnectionUtils;
 import com.siziksu.architecture.common.FileUtils;
 import com.siziksu.architecture.common.Preferences;
+import com.siziksu.architecture.injector.Weather;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
 /**
@@ -23,6 +24,15 @@ public class App extends Application {
         Preferences.init(getApplicationContext());
         FileUtils.init(getApplicationContext());
         ActivityCommon.init();
+    }
+
+    /**
+     * Weather injector.
+     *
+     * @return Weather
+     */
+    public static Weather weather() {
+        return Weather.get();
     }
 }
 

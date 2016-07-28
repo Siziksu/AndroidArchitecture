@@ -7,7 +7,7 @@ import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
-import com.siziksu.architecture.provider.Provider;
+import com.siziksu.architecture.domain.weather.GetWeatherRequest;
 
 /**
  * WeatherPresenter class.
@@ -15,6 +15,7 @@ import com.siziksu.architecture.provider.Provider;
 public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherContract.WeatherView> {
 
     private boolean getWeatherRequestActive;
+    private GetWeatherRequest getWeatherRequest;
 
     /**
      * Constructor.
@@ -23,32 +24,36 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
         // Constructor
     }
 
+    public WeatherPresenter setGetWeatherRequest(GetWeatherRequest getWeatherRequest) {
+        this.getWeatherRequest = getWeatherRequest;
+        return this;
+    }
+
     @Override
     public void getWeather(String city) {
         if (!getWeatherRequestActive) {
             if (view != null) {
                 getWeatherRequestActive = true;
                 view.showProgress(true);
-                Provider.get().weather().domain().getWeather()
-                        .city(city)
-                        .subscribe(
-                                response -> {
-                                    if (view != null && response != null) {
-                                        processGetWeatherResponse(response);
-                                    }
-                                },
-                                throwable -> {
-                                    if (view != null) {
-                                        Log.d(Constants.TAG, throwable.getMessage(), throwable);
-                                        view.onWeatherError();
-                                    }
-                                },
-                                () -> {
-                                    if (view != null) {
-                                        view.showProgress(false);
-                                    }
-                                    getWeatherRequestActive = false;
-                                });
+                getWeatherRequest.city(city)
+                                 .subscribe(
+                                         response -> {
+                                             if (view != null && response != null) {
+                                                 processGetWeatherResponse(response);
+                                             }
+                                         },
+                                         throwable -> {
+                                             if (view != null) {
+                                                 Log.d(Constants.TAG, throwable.getMessage(), throwable);
+                                                 view.onWeatherError();
+                                             }
+                                         },
+                                         () -> {
+                                             if (view != null) {
+                                                 view.showProgress(false);
+                                             }
+                                             getWeatherRequestActive = false;
+                                         });
             }
         }
     }

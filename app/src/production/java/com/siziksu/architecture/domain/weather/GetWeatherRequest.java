@@ -4,7 +4,7 @@ import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.provider.Provider;
+import com.siziksu.architecture.data.weather.GetWeatherData;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -16,14 +16,15 @@ import rx.schedulers.Schedulers;
 public final class GetWeatherRequest {
 
     private static final long EXPIRY_TIME = 5000;
+    private final GetWeatherData getWeatherData;
 
     private String city;
 
     /**
      * Constructor.
      */
-    public GetWeatherRequest() {
-        // Constructor
+    public GetWeatherRequest(GetWeatherData getWeatherData) {
+        this.getWeatherData = getWeatherData;
     }
 
     /**
@@ -66,11 +67,10 @@ public final class GetWeatherRequest {
     public Observable.OnSubscribe<OpenWeather> subscriber() {
         return subscriber -> {
             try {
-                OpenWeather result = Provider.get().weather().data().getWeather()
-                                             .city(city)
-                                             .useCache()
-                                             .cacheExpiryTime(EXPIRY_TIME)
-                                             .run();
+                OpenWeather result = getWeatherData.city(city)
+                                                   .useCache()
+                                                   .cacheExpiryTime(EXPIRY_TIME)
+                                                   .run();
                 subscriber.onNext(result);
                 subscriber.onCompleted();
             } catch (Exception e) {

@@ -1,8 +1,9 @@
 package com.siziksu.architecture.data.weather;
 
+import com.google.gson.Gson;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.data.Data;
-import com.siziksu.architecture.provider.Provider;
+import com.siziksu.architecture.data.client.weather.WeatherClient;
 
 /**
  * Weather class.
@@ -11,6 +12,7 @@ public final class GetWeatherData extends Data {
 
     private static final String KEY_WEATHER_CACHE = "weather_cache";
     private static final long EXPIRY_TIME = 30000;
+    private WeatherClient weatherClient;
 
     private String city;
     private boolean useCache;
@@ -21,6 +23,11 @@ public final class GetWeatherData extends Data {
      */
     public GetWeatherData() {
         // Constructor
+    }
+
+    public GetWeatherData setGetWeatherClient(WeatherClient weatherClient) {
+        this.weatherClient = weatherClient;
+        return this;
     }
 
     /**
@@ -63,16 +70,16 @@ public final class GetWeatherData extends Data {
     public OpenWeather run() {
         OpenWeather openWeather;
         if (!useCache) {
-            return Provider.get().weather().client().getWeather(city);
+            return weatherClient.getWeather(city);
         }
         String cache = getCache(KEY_WEATHER_CACHE);
         long expiryTime = expiry > 0 ? expiry : EXPIRY_TIME;
         if (isCacheValid(cache, KEY_WEATHER_CACHE, expiryTime)) {
-            openWeather = Provider.get().gson().fromJson(cache, OpenWeather.class);
+            openWeather = new Gson().fromJson(cache, OpenWeather.class);
         } else {
-            openWeather = Provider.get().weather().client().getWeather(city);
+            openWeather = weatherClient.getWeather(city);
             if (openWeather != null) {
-                cache = Provider.get().gson().toJson(openWeather);
+                cache = new Gson().toJson(openWeather);
                 setCache(KEY_WEATHER_CACHE, cache);
             }
         }
