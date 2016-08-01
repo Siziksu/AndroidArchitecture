@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements WeatherContract.W
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        presenter = App.weather().getWeather();
+        presenter = App.weatherModule().getWeather();
         ActivityCommon.get().applyToolBarStyleWithHome(this, defaultToolbar);
     }
 
