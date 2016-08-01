@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.siziksu.architecture.App;
 import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
-import com.siziksu.architecture.presenter.weather.WeatherContract;
+import com.siziksu.architecture.presenter.weather.IWeatherPresenter;
+import com.siziksu.architecture.presenter.weather.IWeatherView;
+import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
 import butterknife.BindView;
@@ -22,11 +24,11 @@ import butterknife.ButterKnife;
 /**
  * MainActivity class.
  */
-public class MainActivity extends AppCompatActivity implements WeatherContract.WeatherView {
+public class MainActivity extends AppCompatActivity implements IWeatherView {
 
     private static final String CITY = "Barcelona,Spain";
 
-    private WeatherContract.WeatherPresenter<WeatherContract.WeatherView> presenter;
+    private IWeatherPresenter<WeatherPresenter, IWeatherView> presenter;
 
     @BindView(R.id.textViewPlace)
     TextView textViewPlace;

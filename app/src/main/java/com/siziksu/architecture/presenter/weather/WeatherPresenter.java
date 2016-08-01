@@ -7,15 +7,15 @@ import com.siziksu.architecture.common.Constants;
 import com.siziksu.architecture.common.SystemUtils;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
 import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
-import com.siziksu.architecture.domain.weather.GetWeatherRequest;
+import com.siziksu.architecture.domain.weather.IGetWeatherRequest;
 
 /**
  * WeatherPresenter class.
  */
-public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherContract.WeatherView> {
+public class WeatherPresenter extends IWeatherPresenter<WeatherPresenter, IWeatherView> {
 
     private boolean getWeatherRequestActive;
-    private GetWeatherRequest getWeatherRequest;
+    private IGetWeatherRequest getWeatherRequest;
 
     /**
      * Constructor.
@@ -24,7 +24,8 @@ public class WeatherPresenter extends WeatherContract.WeatherPresenter<WeatherCo
         // Constructor
     }
 
-    public WeatherPresenter setGetWeatherRequest(GetWeatherRequest getWeatherRequest) {
+    @Override
+    public WeatherPresenter setGetWeatherRequest(IGetWeatherRequest getWeatherRequest) {
         this.getWeatherRequest = getWeatherRequest;
         return this;
     }

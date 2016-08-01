@@ -1,9 +1,14 @@
 package com.siziksu.architecture.injector;
 
+import com.siziksu.architecture.data.client.weather.IWeatherClient;
 import com.siziksu.architecture.data.client.weather.WeatherClient;
 import com.siziksu.architecture.data.client.weather.WeatherClientAdapter;
 import com.siziksu.architecture.data.weather.GetWeatherData;
+import com.siziksu.architecture.data.weather.IGetWeatherData;
 import com.siziksu.architecture.domain.weather.GetWeatherRequest;
+import com.siziksu.architecture.domain.weather.IGetWeatherRequest;
+import com.siziksu.architecture.presenter.weather.IWeatherPresenter;
+import com.siziksu.architecture.presenter.weather.IWeatherView;
 import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 
 /**
@@ -11,14 +16,14 @@ import com.siziksu.architecture.presenter.weather.WeatherPresenter;
  */
 public class WeatherModule {
 
-    private final WeatherClient getWeatherClient;
-    private final WeatherPresenter weatherPresenter;
+    private final IWeatherClient getIWeatherClient;
+    private final IWeatherPresenter<WeatherPresenter, IWeatherView> weatherPresenter;
 
     private static WeatherModule instance;
 
     private WeatherModule() {
         weatherPresenter = new WeatherPresenter();
-        getWeatherClient = new WeatherClient(WeatherClientAdapter.get().getService());
+        getIWeatherClient = new WeatherClient(WeatherClientAdapter.get().getService());
     }
 
     /**
@@ -34,19 +39,19 @@ public class WeatherModule {
     }
 
     /**
-     * Presenter for GetWeatherRequest.
+     * Presenter for IGetWeatherRequest.
      *
-     * @return WeatherPresenter
+     * @return IWeatherPresenter
      */
-    public WeatherPresenter getWeather() {
+    public IWeatherPresenter<WeatherPresenter, IWeatherView> getWeather() {
         return weatherPresenter.setGetWeatherRequest(getWeatherRequest());
     }
 
-    private GetWeatherRequest getWeatherRequest() {
+    private IGetWeatherRequest getWeatherRequest() {
         return new GetWeatherRequest(getWeatherData());
     }
 
-    private GetWeatherData getWeatherData() {
-        return new GetWeatherData().setGetWeatherClient(getWeatherClient);
+    private IGetWeatherData getWeatherData() {
+        return new GetWeatherData().setGetWeatherClient(getIWeatherClient);
     }
 }

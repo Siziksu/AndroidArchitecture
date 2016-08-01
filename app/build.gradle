@@ -31,16 +31,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    productFlavors {
-        production {
-            applicationId application_id
-        }
-        mock {
-            applicationId application_id_mock
-            versionName version_name_mock
-        }
-    }
 }
 
 dependencies {

@@ -12,7 +12,7 @@ import retrofit2.Call;
 /**
  * WeatherClient class.
  */
-public final class WeatherClient {
+public final class WeatherClient implements IWeatherClient {
 
     private WeatherClientService service;
 
@@ -20,11 +20,7 @@ public final class WeatherClient {
         this.service = service;
     }
 
-    /**
-     * Gets the {@link OpenWeather}.
-     *
-     * @return a {@link OpenWeather} object
-     */
+    @Override
     public OpenWeather getWeather(String city) {
         try {
             Call<OpenWeather> call = service.getWeather(city, WeatherClientAdapter.WEATHER_API_KEY, WeatherClientAdapter.UNITS);

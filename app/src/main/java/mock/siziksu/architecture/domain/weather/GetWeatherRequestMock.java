@@ -1,4 +1,4 @@
-package com.siziksu.architecture.domain.weather;
+package mock.siziksu.architecture.domain.weather;
 
 import android.util.Log;
 
@@ -9,34 +9,28 @@ import com.siziksu.architecture.common.functions.Done;
 import com.siziksu.architecture.common.functions.Fail;
 import com.siziksu.architecture.common.functions.Success;
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.data.weather.GetWeatherData;
+import com.siziksu.architecture.data.weather.IGetWeatherData;
+import com.siziksu.architecture.domain.weather.IGetWeatherRequest;
 
 /**
  * Request class.
  */
-public final class GetWeatherRequest {
-
-    private final GetWeatherData getWeatherData;
+public final class GetWeatherRequestMock implements IGetWeatherRequest {
 
     /**
      * Constructor.
      */
-    public GetWeatherRequest(GetWeatherData getWeatherData) {
-        this.getWeatherData = getWeatherData;
+    public GetWeatherRequestMock(IGetWeatherData getWeatherData) {
+        // No need for the mock
     }
 
-    public GetWeatherRequest city(String city) {
+    @Override
+    public GetWeatherRequestMock city(String city) {
         // No need for the mock
         return this;
     }
 
-    /**
-     * Mocked subscribe.
-     *
-     * @param success the success function
-     * @param fail    the fail function
-     * @param done    the done function
-     */
+    @Override
     public void subscribe(final Success<OpenWeather> success, final Fail fail, final Done done) {
         Log.d(Constants.TAG, "GetWeather mocked response");
         String response = FileUtils.get().getStringFromFile("get_weather/response.json");
