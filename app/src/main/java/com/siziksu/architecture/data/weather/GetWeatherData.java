@@ -12,7 +12,7 @@ public final class GetWeatherData extends Data implements IGetWeatherData<GetWea
 
     private static final String KEY_WEATHER_CACHE = "weather_cache";
     private static final long EXPIRY_TIME = 30000;
-    private IWeatherClient IWeatherClient;
+    private IWeatherClient weatherClient;
 
     private String city;
     private boolean useCache;
@@ -27,7 +27,7 @@ public final class GetWeatherData extends Data implements IGetWeatherData<GetWea
 
     @Override
     public GetWeatherData setGetWeatherClient(IWeatherClient client) {
-        this.IWeatherClient = client;
+        this.weatherClient = client;
         return this;
     }
 
@@ -53,14 +53,14 @@ public final class GetWeatherData extends Data implements IGetWeatherData<GetWea
     public OpenWeather run() {
         OpenWeather openWeather;
         if (!useCache) {
-            return IWeatherClient.getWeather(city);
+            return weatherClient.getWeather(city);
         }
         String cache = getCache(KEY_WEATHER_CACHE);
         long expiryTime = expiry > 0 ? expiry : EXPIRY_TIME;
         if (isCacheValid(cache, KEY_WEATHER_CACHE, expiryTime)) {
             openWeather = new Gson().fromJson(cache, OpenWeather.class);
         } else {
-            openWeather = IWeatherClient.getWeather(city);
+            openWeather = weatherClient.getWeather(city);
             if (openWeather != null) {
                 cache = new Gson().toJson(openWeather);
                 setCache(KEY_WEATHER_CACHE, cache);

@@ -41,7 +41,7 @@ public final class FileUtils {
     /**
      * This method provides an instance of this class. First needs to be initialized.
      *
-     * @return {@link ConnectionUtils} object
+     * @return {@link FileUtils} object
      */
     public static FileUtils get() {
         if (instance == null) {
