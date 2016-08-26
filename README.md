@@ -132,15 +132,15 @@ The `Data` layer includes the `Cloud` and the `Persistence`.
 ## Layer communication
 
 ```
-app.view.ui    -> app.presenter
+ui        -> presenter
 
-app.presenter  ^  return result
-               -> domain
+presenter ^  return result
+          -> domain
 
-domain.request -> data
+domain    -> data
 
-data           -> data.database  ^  return response
-               -> data.client    ^  return response
+data      -> data.database  ^  return response
+          -> data.client    ^  return response
 ```
 
 ## License
