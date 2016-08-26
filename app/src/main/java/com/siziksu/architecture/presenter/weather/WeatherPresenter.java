@@ -24,10 +24,8 @@ public class WeatherPresenter extends IWeatherPresenter<WeatherPresenter, IWeath
         // Constructor
     }
 
-    @Override
-    public WeatherPresenter setGetWeatherRequest(IGetWeatherRequest getWeatherRequest) {
+    public WeatherPresenter(IGetWeatherRequest getWeatherRequest) {
         this.getWeatherRequest = getWeatherRequest;
-        return this;
     }
 
     @Override

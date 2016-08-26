@@ -1,7 +1,6 @@
 package com.siziksu.architecture.data.weather;
 
 import com.siziksu.architecture.common.model.weather.OpenWeather;
-import com.siziksu.architecture.data.client.weather.IWeatherClient;
 
 /**
  * IGetWeatherData class.
@@ -9,15 +8,6 @@ import com.siziksu.architecture.data.client.weather.IWeatherClient;
  * @param <T> the type parameter
  */
 public interface IGetWeatherData<T extends IGetWeatherData<T>> {
-
-    /**
-     * Sets the IWeatherClient.
-     *
-     * @param client the IWeatherClient
-     *
-     * @return the get weather client
-     */
-    T setGetWeatherClient(IWeatherClient client);
 
     /**
      * Sets the city

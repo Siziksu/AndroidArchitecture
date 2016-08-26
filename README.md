@@ -137,20 +137,11 @@ app.view.ui    -> app.presenter
 app.presenter  ^  return result
                -> domain
 
-domain.request -> data.facade
+domain.request -> data
 
-data.facade    -> data.database  ^  return response
+data           -> data.database  ^  return response
                -> data.client    ^  return response
 ```
-
-## How it works
-
-1. The `User Interface` will register in the `Presenter` and ask him for the things it needs.
-2. Then, the `Presenter` will communicate with the `Domain` by asking for this data to the domain classes (`Facades` or `Requests`), and after receiving the response, process it and deliver it to the `User Interface`.
-3. In the `Domain` layer, the `Facade` through the `Request` classes or this last directly will communicate with the `Data` layer. This `Request` classes will communicate with the `Data` layer asking for this data through the data classes (`Facades`).
-4. In the Data layer, this `Facade` classes will manage the `cache` and the `cloud` through the data `Client` classes. Finally, this `Client` class will manage the `Retrofit` service calls.
-
-As said before, all the layers will have access to the `Common` layer which contains the `Model` and `global objects`.
 
 ## License
 

@@ -12,24 +12,22 @@ import com.siziksu.architecture.presenter.weather.IWeatherView;
 import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 
 /**
- * Weather class.
+ * WeatherModule class.
  */
 public class WeatherModule {
 
     private final IWeatherClient getIWeatherClient;
-    private final IWeatherPresenter<WeatherPresenter, IWeatherView> weatherPresenter;
 
     private static WeatherModule instance;
 
     private WeatherModule() {
-        weatherPresenter = new WeatherPresenter();
         getIWeatherClient = new WeatherClient(WeatherClientAdapter.get().getService());
     }
 
     /**
      * Gets an instance of the class.
      *
-     * @return the Weather injector
+     * @return the WeatherModule injector
      */
     public static WeatherModule get() {
         if (instance == null) {
@@ -44,7 +42,7 @@ public class WeatherModule {
      * @return IWeatherPresenter
      */
     public IWeatherPresenter<WeatherPresenter, IWeatherView> getWeather() {
-        return weatherPresenter.setGetWeatherRequest(getWeatherRequest());
+        return new WeatherPresenter(getWeatherRequest());
     }
 
     private IGetWeatherRequest getWeatherRequest() {
@@ -52,6 +50,6 @@ public class WeatherModule {
     }
 
     private IGetWeatherData getWeatherData() {
-        return new GetWeatherData().setGetWeatherClient(getIWeatherClient);
+        return new GetWeatherData(getIWeatherClient);
     }
 }
