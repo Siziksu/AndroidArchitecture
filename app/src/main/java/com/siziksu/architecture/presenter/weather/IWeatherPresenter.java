@@ -1,15 +1,23 @@
 package com.siziksu.architecture.presenter.weather;
 
-import com.siziksu.architecture.presenter.Presenter;
-import com.siziksu.architecture.presenter.View;
+import com.siziksu.architecture.presenter.IView;
 
 /**
  * IWeatherPresenter class.
  *
- * @param <T> the type parameter
  * @param <V> the type parameter
  */
-public abstract class IWeatherPresenter<T extends IWeatherPresenter<T, V>, V extends View> extends Presenter<V> {
+public abstract class IWeatherPresenter<V extends IView> {
+
+    protected V view;
+
+    public void register(final V view) {
+        this.view = view;
+    }
+
+    public void unregister() {
+        this.view = null;
+    }
 
     /**
      * Gets weather for a city.

@@ -15,7 +15,6 @@ import com.siziksu.architecture.R;
 import com.siziksu.architecture.common.model.weather.response.WeatherResponse;
 import com.siziksu.architecture.presenter.weather.IWeatherPresenter;
 import com.siziksu.architecture.presenter.weather.IWeatherView;
-import com.siziksu.architecture.presenter.weather.WeatherPresenter;
 import com.siziksu.architecture.ui.common.ActivityCommon;
 
 import butterknife.BindView;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements IWeatherView {
 
     private static final String CITY = "Barcelona,Spain";
 
-    private IWeatherPresenter<WeatherPresenter, IWeatherView> presenter;
+    private IWeatherPresenter<IWeatherView> presenter;
 
     @BindView(R.id.textViewPlace)
     TextView textViewPlace;

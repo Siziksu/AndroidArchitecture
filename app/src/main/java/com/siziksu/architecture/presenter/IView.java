@@ -5,7 +5,7 @@ import android.app.Activity;
 /**
  * View class.
  */
-public interface View {
+public interface IView {
 
     /**
      * Returns the activity in which the view is hold.

@@ -12,7 +12,7 @@ import com.siziksu.architecture.domain.weather.IGetWeatherRequest;
 /**
  * WeatherPresenter class.
  */
-public class WeatherPresenter extends IWeatherPresenter<WeatherPresenter, IWeatherView> {
+public class WeatherPresenter extends IWeatherPresenter<IWeatherView> {
 
     private boolean getWeatherRequestActive;
     private IGetWeatherRequest getWeatherRequest;

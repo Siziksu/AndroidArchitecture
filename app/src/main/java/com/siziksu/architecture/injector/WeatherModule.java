@@ -41,7 +41,7 @@ public class WeatherModule {
      *
      * @return IWeatherPresenter
      */
-    public IWeatherPresenter<WeatherPresenter, IWeatherView> getWeather() {
+    public IWeatherPresenter<IWeatherView> getWeather() {
         return new WeatherPresenter(getWeatherRequest());
     }
 
